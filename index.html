@@ -2,19 +2,34 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Sistema de Gestión Fiscal RD</title>
+<meta charset="UTF-8">
 
-    <link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sistema de Gestión Fiscal RD v2.0</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
 
 <header>
 
+<div class="logo">
+
 <h1>📊 Sistema de Gestión Fiscal RD</h1>
+
+<p>Versión 2.0</p>
+
+</div>
 
 <nav>
 
@@ -32,8 +47,10 @@
 
 <a href="#soporte">📞 Soporte</a>
 
-<button id="modoOscuro" onclick="cambiarModo()">
-🌙 Modo Oscuro
+<button onclick="cambiarModo()">
+
+🌙
+
 </button>
 
 </nav>
@@ -41,6 +58,22 @@
 </header>
 
 <main>
+
+<section id="inicio" class="hero">
+
+<h2>Bienvenido</h2>
+
+<p>
+
+Administra tus cálculos fiscales desde un solo lugar.
+
+Calcula ITBIS, ISR, crea un plan de ahorro y conserva
+
+tu historial automáticamente.
+
+</p>
+
+</section>
 
 <section id="dashboard">
 
@@ -84,26 +117,6 @@
 
 </section>
 
-<hr>
-
-<section id="inicio">
-
-<h2>🏠 Inicio</h2>
-
-<p>
-
-Bienvenido al Sistema de Gestión Fiscal RD.
-
-Este sistema permite calcular ITBIS, ISR,
-crear un plan de ahorro y almacenar un
-historial local de operaciones.
-
-</p>
-
-</section>
-
-<hr>
-
 <section id="itbis">
 
 <h2>💰 Calculadora ITBIS</h2>
@@ -111,9 +124,7 @@ historial local de operaciones.
 <input
 type="number"
 id="monto"
-placeholder="Ingrese el monto">
-
-<br><br>
+placeholder="Monto sin ITBIS">
 
 <button onclick="calcular()">
 
@@ -131,15 +142,13 @@ Limpiar
 
 <p>Monto sin ITBIS: RD$ 0.00</p>
 
-<p>ITBIS (18%): RD$ 0.00</p>
+<p>ITBIS: RD$ 0.00</p>
 
 <p>Total: RD$ 0.00</p>
 
 </div>
 
 </section>
-
-<hr>
 
 <section id="isr">
 
@@ -148,9 +157,7 @@ Limpiar
 <input
 type="number"
 id="salario"
-placeholder="Ingrese salario mensual">
-
-<br><br>
+placeholder="Salario mensual">
 
 <button onclick="calcularISR()">
 
@@ -160,17 +167,15 @@ Calcular ISR
 
 <div id="resultadoISR">
 
-<p>Salario Mensual: RD$ 0.00</p>
+<p>Salario: RD$ 0.00</p>
 
-<p>ISR Mensual: RD$ 0.00</p>
+<p>ISR: RD$ 0.00</p>
 
-<p>Ingreso Neto: RD$ 0.00</p>
+<p>Neto: RD$ 0.00</p>
 
 </div>
 
 </section>
-
-<hr>
 
 <section id="ahorro">
 
@@ -179,13 +184,11 @@ Calcular ISR
 <input
 type="number"
 id="ingresoAhorro"
-placeholder="Ingrese ingreso mensual">
-
-<br><br>
+placeholder="Ingreso mensual">
 
 <button onclick="calcularAhorro()">
 
-Calcular Ahorro
+Calcular
 
 </button>
 
@@ -200,8 +203,6 @@ Calcular Ahorro
 </div>
 
 </section>
-
-<hr>
 
 <section id="historial">
 
@@ -221,41 +222,17 @@ Calcular Ahorro
 
 </section>
 
-<hr>
-
 <section id="soporte">
 
 <h2>📞 Soporte</h2>
 
-<p>
+<div class="soporte-card">
 
-<strong>Sistema de Gestión Fiscal RD</strong>
+<p><strong>Sistema de Gestión Fiscal RD</strong></p>
 
-</p>
+<p>📧 denyf.suero@gmail.com</p>
 
-<p>
-
-Correo:
-
-<strong>
-
-denyf.suero@gmail.com
-
-</strong>
-
-</p>
-
-<p>
-
-Teléfono:
-
-<strong>
-
-829-556-7057
-
-</strong>
-
-</p>
+<p>📱 829-556-7057</p>
 
 <p>
 
@@ -269,11 +246,13 @@ Lunes a Viernes
 
 <p>
 
-Versión del sistema:
+Versión actual:
 
-1.0
+2.0
 
 </p>
+
+</div>
 
 </section>
 
@@ -289,7 +268,7 @@ Versión del sistema:
 
 <p>
 
-Desarrollado como proyecto de aprendizaje.
+Proyecto desarrollado con HTML, CSS y JavaScript.
 
 </p>
 
