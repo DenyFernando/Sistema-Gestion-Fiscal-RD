@@ -1,18 +1,10 @@
-// =======================================
-// Sistema de Gestión Fiscal RD
-// script.js
-// Parte 1
-// =======================================
+// ==========================================
+// Sistema de Gestión Fiscal RD v2.0
+// script.js - PARTE 1 (3A)
+// ==========================================
 
-// ---------- Variables ----------
+// ---------- Historial ----------
 let historial = JSON.parse(localStorage.getItem("historial")) || [];
-
-let dashboard = {
-    operaciones: 0,
-    itbis: 0,
-    isr: 0,
-    ahorro: 0
-};
 
 // ---------- Formato RD$ ----------
 function formatoRD(valor) {
@@ -22,72 +14,45 @@ function formatoRD(valor) {
     });
 }
 
+// ---------- Guardar ----------
+function guardarHistorial() {
+    localStorage.setItem("historial", JSON.stringify(historial));
+}
+
 // ---------- Dashboard ----------
 function actualizarDashboard() {
 
-    dashboard.operaciones = historial.length;
-
-    dashboard.itbis = 0;
-    dashboard.isr = 0;
-    dashboard.ahorro = 0;
+    let totalITBIS = 0;
+    let totalISR = 0;
+    let totalAhorro = 0;
 
     historial.forEach(item => {
 
         if (item.tipo === "ITBIS") {
-            dashboard.itbis += item.valor;
+            totalITBIS += item.valor;
         }
 
         if (item.tipo === "ISR") {
-            dashboard.isr += item.valor;
+            totalISR += item.valor;
         }
 
         if (item.tipo === "AHORRO") {
-            dashboard.ahorro += item.valor;
+            totalAhorro += item.valor;
         }
 
     });
 
     document.getElementById("totalOperaciones").textContent =
-        dashboard.operaciones;
+        historial.length;
 
     document.getElementById("totalITBIS").textContent =
-        formatoRD(dashboard.itbis);
+        formatoRD(totalITBIS);
 
     document.getElementById("totalISR").textContent =
-        formatoRD(dashboard.isr);
+        formatoRD(totalISR);
 
     document.getElementById("totalAhorro").textContent =
-        formatoRD(dashboard.ahorro);
-
-}
-
-// ---------- Guardar historial ----------
-function guardarHistorial() {
-
-    localStorage.setItem(
-        "historial",
-        JSON.stringify(historial)
-    );
-
-}
-
-// ---------- Agregar operación ----------
-function agregarHistorial(tipo, texto, valor) {
-
-    historial.unshift({
-        tipo,
-        texto,
-        valor,
-        fecha: new Date().toLocaleString()
-    });
-
-    if (historial.length > 50) {
-        historial.pop();
-    }
-
-    guardarHistorial();
-    mostrarHistorial();
-    actualizarDashboard();
+        formatoRD(totalAhorro);
 
 }
 
@@ -102,6 +67,7 @@ function mostrarHistorial() {
             "<p>No hay operaciones registradas.</p>";
 
         return;
+
     }
 
     lista.innerHTML = "";
@@ -109,30 +75,65 @@ function mostrarHistorial() {
     historial.forEach(item => {
 
         lista.innerHTML += `
-        <div class="historial-item">
 
-            <strong>${item.tipo}</strong><br>
+<div class="historial-item">
 
-            ${item.texto}<br>
+<strong>${item.tipo}</strong>
 
-            <small>${item.fecha}</small>
+<br>
 
-        </div>
-        `;
+${item.descripcion}
+
+<br>
+
+<small>${item.fecha}</small>
+
+</div>
+
+`;
 
     });
 
 }
 
-// ---------- ITBIS ----------
+// ---------- Agregar historial ----------
+function agregarHistorial(tipo, descripcion, valor) {
+
+    historial.unshift({
+
+        tipo,
+        descripcion,
+        valor,
+        fecha: new Date().toLocaleString()
+
+    });
+
+    if (historial.length > 100) {
+
+        historial.pop();
+
+    }
+
+    guardarHistorial();
+
+    mostrarHistorial();
+
+    actualizarDashboard();
+
+}
+
+// ==========================================
+// CALCULADORA ITBIS
+// ==========================================
+
 function calcular() {
 
     let monto =
         Number(document.getElementById("monto").value);
 
-    if (!monto) {
+    if (monto <= 0) {
 
-        alert("Ingrese un monto.");
+        alert("Ingrese un monto válido.");
 
         return;
 
@@ -153,9 +154,13 @@ function calcular() {
 `;
 
     agregarHistorial(
+
         "ITBIS",
-        `ITBIS calculado: ${formatoRD(total)}`,
+
+        `Monto: ${formatoRD(monto)} | Total: ${formatoRD(total)}`,
+
         itbis
+
     );
 
 }
@@ -168,30 +173,34 @@ function limpiar() {
 
 <p>Monto sin ITBIS: RD$ 0.00</p>
 
-<p>ITBIS (18%): RD$ 0.00</p>
+<p>ITBIS: RD$ 0.00</p>
 
 <p>Total: RD$ 0.00</p>
 
 `;
 
 }
-// ---------- ISR ----------
+// ==========================================
+// Sistema de Gestión Fiscal RD v2.0
+// script.js - PARTE 2 (3B)
+// ==========================================
+
+// ==========================================
+// CALCULADORA ISR
+// ==========================================
+
 function calcularISR() {
 
-    let salario =
-        Number(document.getElementById("salario").value);
+    const salario = Number(document.getElementById("salario").value);
 
-    if (!salario) {
-
-        alert("Ingrese un salario.");
-
+    if (salario <= 0) {
+        alert("Ingrese un salario válido.");
         return;
-
     }
 
     let isr = 0;
 
-    // Cálculo simplificado (se puede actualizar con las tablas oficiales)
+    // Cálculo simplificado (puede actualizarse con tablas oficiales)
     if (salario > 86750) {
         isr = (salario - 86750) * 0.25;
     } else if (salario > 62400) {
@@ -200,39 +209,38 @@ function calcularISR() {
         isr = (salario - 34685) * 0.15;
     }
 
-    let neto = salario - isr;
+    const neto = salario - isr;
 
     document.getElementById("resultadoISR").innerHTML = `
-        <p>Salario Mensual: ${formatoRD(salario)}</p>
-        <p>ISR Mensual: ${formatoRD(isr)}</p>
+        <p>Salario: ${formatoRD(salario)}</p>
+        <p>ISR: ${formatoRD(isr)}</p>
         <p>Ingreso Neto: ${formatoRD(neto)}</p>
     `;
 
     agregarHistorial(
         "ISR",
-        `ISR calculado: ${formatoRD(isr)}`,
+        `Salario: ${formatoRD(salario)} | ISR: ${formatoRD(isr)}`,
         isr
     );
 
 }
 
-// ---------- Ahorro ----------
+// ==========================================
+// PLAN DE AHORRO
+// ==========================================
+
 function calcularAhorro() {
 
-    let ingreso =
-        Number(document.getElementById("ingresoAhorro").value);
+    const ingreso = Number(document.getElementById("ingresoAhorro").value);
 
-    if (!ingreso) {
-
-        alert("Ingrese un ingreso.");
-
+    if (ingreso <= 0) {
+        alert("Ingrese un ingreso válido.");
         return;
-
     }
 
-    let ahorro = ingreso * 0.20;
-    let necesidades = ingreso * 0.50;
-    let deseos = ingreso * 0.30;
+    const ahorro = ingreso * 0.20;
+    const necesidades = ingreso * 0.50;
+    const deseos = ingreso * 0.30;
 
     document.getElementById("resultadoAhorro").innerHTML = `
         <p>Ahorro (20%): ${formatoRD(ahorro)}</p>
@@ -242,13 +250,16 @@ function calcularAhorro() {
 
     agregarHistorial(
         "AHORRO",
-        `Plan de ahorro generado`,
+        `Plan generado sobre ${formatoRD(ingreso)}`,
         ahorro
     );
 
 }
 
-// ---------- Limpiar historial ----------
+// ==========================================
+// LIMPIAR HISTORIAL
+// ==========================================
+
 function limpiarHistorial() {
 
     if (!confirm("¿Desea eliminar todo el historial?")) {
@@ -265,7 +276,10 @@ function limpiarHistorial() {
 
 }
 
-// ---------- Modo oscuro ----------
+// ==========================================
+// MODO OSCURO
+// ==========================================
+
 function cambiarModo() {
 
     document.body.classList.toggle("dark-mode");
@@ -277,23 +291,26 @@ function cambiarModo() {
 
 }
 
-// ---------- Cargar configuración ----------
+// ==========================================
+// CARGAR CONFIGURACIÓN
+// ==========================================
+
 function iniciarSistema() {
 
     mostrarHistorial();
 
     actualizarDashboard();
 
-    const modoGuardado =
-        localStorage.getItem("modoOscuro");
+    const modo = localStorage.getItem("modoOscuro");
 
-    if (modoGuardado === "true") {
-
+    if (modo === "true") {
         document.body.classList.add("dark-mode");
-
     }
 
 }
 
-// ---------- Iniciar ----------
+// ==========================================
+// INICIO
+// ==========================================
+
 window.onload = iniciarSistema;
