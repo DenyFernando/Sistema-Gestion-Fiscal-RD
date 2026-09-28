@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard | Sistema de Gestión Fiscal RD</title>
+
+<link rel="stylesheet" href="css/dashboard.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>📊 Dashboard</h1>
+
+<button onclick="cerrarSesion()">
+
+🚪 Cerrar sesión
+
+</button>
+
+</header>
+
+<main>
+
+<section class="cards">
+
+<div class="card">
+
+<h2>💰 ITBIS</h2>
+
+<p>Calcula el ITBIS de cualquier monto.</p>
+
+<button onclick="mostrarModulo('itbis')">
+
+Abrir
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>📈 ISR</h2>
+
+<p>Calcula el ISR mensual.</p>
+
+<button onclick="mostrarModulo('isr')">
+
+Abrir
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>💵 Ahorro</h2>
+
+<p>Plan 50 / 30 / 20.</p>
+
+<button onclick="mostrarModulo('ahorro')">
+
+Abrir
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>📜 Historial</h2>
+
+<p>Consulta operaciones.</p>
+
+<button onclick="mostrarModulo('historial')">
+
+Abrir
+
+</button>
+
+</div>
+
+</section>
+
+<section id="contenido">
+
+<h2>Bienvenido</h2>
+
+<p>
+
+Selecciona un módulo del Dashboard.
+
+</p>
+
+</section>
+
+</main>
+
+<script src="js/dashboard.js"></script>
+
+</body>
+
+</html>
