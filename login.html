@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Iniciar Sesión | Sistema de Gestión Fiscal RD</title>
+
+<link rel="stylesheet" href="css/login.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+<div class="login-box">
+
+<h1>📊 Sistema de Gestión Fiscal RD</h1>
+
+<h2>Iniciar Sesión</h2>
+
+<form id="loginForm">
+
+<label>Correo electrónico</label>
+
+<input
+type="email"
+id="correo"
+placeholder="ejemplo@correo.com"
+required>
+
+<label>Contraseña</label>
+
+<input
+type="password"
+id="password"
+placeholder="********"
+required>
+
+<button type="submit">
+
+Ingresar
+
+</button>
+
+</form>
+
+<p id="mensaje"></p>
+
+<hr>
+
+<p>
+
+¿No tienes una cuenta?
+
+</p>
+
+<button onclick="crearCuenta()">
+
+Crear Cuenta
+
+</button>
+
+<br><br>
+
+<a href="index.html">
+
+⬅ Volver al Inicio
+
+</a>
+
+</div>
+
+</div>
+
+<script src="js/login.js"></script>
+
+</body>
+
+</html>
