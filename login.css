@@ -1,0 +1,241 @@
+/* =========================================
+   Sistema de Gestión Fiscal RD
+   login.css - Versión 3.0
+========================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    background:linear-gradient(135deg,#0d6efd,#1d4ed8);
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+
+}
+
+.login-container{
+
+    width:100%;
+
+    max-width:450px;
+
+}
+
+.login-box{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:40px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+
+    animation:fade .5s;
+
+}
+
+@keyframes fade{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+.login-box h1{
+
+    text-align:center;
+
+    color:#0d6efd;
+
+    margin-bottom:10px;
+
+}
+
+.login-box h2{
+
+    text-align:center;
+
+    color:#444;
+
+    margin-bottom:30px;
+
+}
+
+label{
+
+    display:block;
+
+    margin-top:15px;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+    color:#444;
+
+}
+
+input{
+
+    width:100%;
+
+    padding:14px;
+
+    border:1px solid #ccc;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+    transition:.3s;
+
+}
+
+input:focus{
+
+    border-color:#0d6efd;
+
+    outline:none;
+
+    box-shadow:0 0 10px rgba(13,110,253,.3);
+
+}
+
+button{
+
+    width:100%;
+
+    margin-top:20px;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#0d6efd;
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:#0b5ed7;
+
+}
+
+#mensaje{
+
+    margin-top:15px;
+
+    text-align:center;
+
+    font-weight:bold;
+
+    color:#dc3545;
+
+}
+
+hr{
+
+    margin:30px 0;
+
+    border:none;
+
+    border-top:1px solid #ddd;
+
+}
+
+a{
+
+    text-decoration:none;
+
+    color:#0d6efd;
+
+    font-weight:bold;
+
+    display:block;
+
+    text-align:center;
+
+    margin-top:15px;
+
+}
+
+a:hover{
+
+    text-decoration:underline;
+
+}
+
+p{
+
+    text-align:center;
+
+    color:#555;
+
+}
+
+@media(max-width:600px){
+
+.login-box{
+
+    padding:25px;
+
+}
+
+.login-box h1{
+
+    font-size:24px;
+
+}
+
+.login-box h2{
+
+    font-size:20px;
+
+}
+
+button{
+
+    padding:12px;
+
+}
+
+}
