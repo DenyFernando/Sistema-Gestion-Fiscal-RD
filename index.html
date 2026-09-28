@@ -3,19 +3,19 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sistema de Gestión Fiscal RD v2.0</title>
+    <title>Sistema de Gestión Fiscal RD | Versión 3.0</title>
 
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 </head>
 
@@ -23,258 +23,177 @@
 
 <header>
 
-<div class="logo">
+    <div class="logo">
 
-<h1>📊 Sistema de Gestión Fiscal RD</h1>
+        <h1>📊 Sistema de Gestión Fiscal RD</h1>
 
-<p>Versión 2.0</p>
+        <p>Versión 3.0</p>
 
-</div>
+    </div>
 
-<nav>
+    <nav>
 
-<a href="#inicio">🏠 Inicio</a>
+        <a href="#inicio">🏠 Inicio</a>
 
-<a href="#dashboard">📊 Dashboard</a>
+        <a href="#funciones">Funciones</a>
 
-<a href="#itbis">💰 ITBIS</a>
+        <a href="#beneficios">Beneficios</a>
 
-<a href="#isr">📈 ISR</a>
+        <a href="#contacto">Contacto</a>
 
-<a href="#ahorro">💵 Ahorro</a>
+        <a class="login-btn" href="login.html">🔐 Iniciar Sesión</a>
 
-<a href="#historial">📜 Historial</a>
-
-<a href="#soporte">📞 Soporte</a>
-
-<button onclick="cambiarModo()">
-
-🌙
-
-</button>
-
-</nav>
+    </nav>
 
 </header>
 
-<main>
+<section class="hero" id="inicio">
 
-<section id="inicio" class="hero">
+    <div class="hero-text">
 
-<h2>Bienvenido</h2>
+        <h2>Gestiona tus impuestos de forma sencilla</h2>
 
-<p>
+        <p>
 
-Administra tus cálculos fiscales desde un solo lugar.
+            Calcula ITBIS, ISR, administra tu ahorro,
 
-Calcula ITBIS, ISR, crea un plan de ahorro y conserva
+            consulta tu historial y controla tus finanzas
 
-tu historial automáticamente.
+            desde una sola plataforma.
 
-</p>
+        </p>
 
-</section>
+        <a href="login.html" class="btn">
 
-<section id="dashboard">
+            Entrar al Sistema
 
-<h2>📊 Dashboard</h2>
+        </a>
 
-<div class="dashboard">
-
-<div class="card">
-
-<h3>Operaciones</h3>
-
-<p id="totalOperaciones">0</p>
-
-</div>
-
-<div class="card">
-
-<h3>Total ITBIS</h3>
-
-<p id="totalITBIS">RD$ 0.00</p>
-
-</div>
-
-<div class="card">
-
-<h3>Total ISR</h3>
-
-<p id="totalISR">RD$ 0.00</p>
-
-</div>
-
-<div class="card">
-
-<h3>Total Ahorro</h3>
-
-<p id="totalAhorro">RD$ 0.00</p>
-
-</div>
-
-</div>
+    </div>
 
 </section>
 
-<section id="itbis">
+<section id="funciones">
 
-<h2>💰 Calculadora ITBIS</h2>
+    <h2>Funciones Principales</h2>
 
-<input
-type="number"
-id="monto"
-placeholder="Monto sin ITBIS">
+    <div class="cards">
 
-<button onclick="calcular()">
+        <div class="card">
 
-Calcular
+            <h3>💰 ITBIS</h3>
 
-</button>
+            <p>
 
-<button onclick="limpiar()">
+                Calcula automáticamente el ITBIS con resultados claros.
 
-Limpiar
+            </p>
 
-</button>
+        </div>
 
-<div id="resultado">
+        <div class="card">
 
-<p>Monto sin ITBIS: RD$ 0.00</p>
+            <h3>📈 ISR</h3>
 
-<p>ITBIS: RD$ 0.00</p>
+            <p>
 
-<p>Total: RD$ 0.00</p>
+                Calcula el Impuesto Sobre la Renta.
 
-</div>
+            </p>
 
-</section>
+        </div>
 
-<section id="isr">
+        <div class="card">
 
-<h2>📈 Calculadora ISR</h2>
+            <h3>💵 Ahorro</h3>
 
-<input
-type="number"
-id="salario"
-placeholder="Salario mensual">
+            <p>
 
-<button onclick="calcularISR()">
+                Organiza tus ingresos utilizando la regla 50/30/20.
 
-Calcular ISR
+            </p>
 
-</button>
+        </div>
 
-<div id="resultadoISR">
+        <div class="card">
 
-<p>Salario: RD$ 0.00</p>
+            <h3>📜 Historial</h3>
 
-<p>ISR: RD$ 0.00</p>
+            <p>
 
-<p>Neto: RD$ 0.00</p>
+                Guarda todas tus operaciones automáticamente.
 
-</div>
+            </p>
+
+        </div>
+
+    </div>
 
 </section>
 
-<section id="ahorro">
+<section id="beneficios">
 
-<h2>💵 Plan de Ahorro</h2>
+    <h2>¿Por qué usar este sistema?</h2>
 
-<input
-type="number"
-id="ingresoAhorro"
-placeholder="Ingreso mensual">
+    <ul>
 
-<button onclick="calcularAhorro()">
+        <li>✅ Fácil de usar.</li>
 
-Calcular
+        <li>✅ Compatible con computadoras y celulares.</li>
 
-</button>
+        <li>✅ Información organizada.</li>
 
-<div id="resultadoAhorro">
+        <li>✅ Dashboard moderno.</li>
 
-<p>Ahorro (20%): RD$ 0.00</p>
+        <li>✅ Historial automático.</li>
 
-<p>Necesidades (50%): RD$ 0.00</p>
+        <li>✅ Modo oscuro.</li>
 
-<p>Deseos (30%): RD$ 0.00</p>
+        <li>✅ Exportación a PDF y Excel (próximamente).</li>
 
-</div>
+    </ul>
 
 </section>
 
-<section id="historial">
+<section id="contacto">
 
-<h2>📜 Historial</h2>
+    <h2>Contacto</h2>
 
-<button onclick="limpiarHistorial()">
+    <p><strong>Desarrollador:</strong> Fernando Suero</p>
 
-🗑 Limpiar Historial
+    <p>📧 denyf.suero@gmail.com</p>
 
-</button>
+    <p>📱 829-556-7057</p>
 
-<div id="historialLista">
+    <p>
 
-<p>No hay operaciones registradas.</p>
+        Horario de atención:
 
-</div>
+        Lunes a Viernes
 
-</section>
+        8:00 AM - 5:00 PM
 
-<section id="soporte">
-
-<h2>📞 Soporte</h2>
-
-<div class="soporte-card">
-
-<p><strong>Sistema de Gestión Fiscal RD</strong></p>
-
-<p>📧 denyf.suero@gmail.com</p>
-
-<p>📱 829-556-7057</p>
-
-<p>
-
-Horario de atención:
-
-Lunes a Viernes
-
-8:00 AM - 5:00 PM
-
-</p>
-
-<p>
-
-Versión actual:
-
-2.0
-
-</p>
-
-</div>
+    </p>
 
 </section>
-
-</main>
 
 <footer>
 
-<p>
+    <p>
 
-© 2026 Sistema de Gestión Fiscal RD
+        © 2026 Sistema de Gestión Fiscal RD
 
-</p>
+    </p>
 
-<p>
+    <p>
 
-Proyecto desarrollado con HTML, CSS y JavaScript.
+        Desarrollado con HTML, CSS y JavaScript.
 
-</p>
+    </p>
 
 </footer>
 
-<script src="script.js"></script>
+<script src="js/script.js"></script>
 
 </body>
 
