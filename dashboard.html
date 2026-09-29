@@ -202,3 +202,265 @@ Seleccione uno de los módulos para comenzar.
 </div>
 
 </section>
+<!-- ===========================
+     MÓDULOS DEL SISTEMA
+=========================== -->
+
+<div id="modulo-itbis" class="modulo" style="display:none;">
+
+<h2>💰 Calculadora de ITBIS</h2>
+
+<p>Calcule automáticamente el ITBIS del 18%.</p>
+
+<div class="formulario">
+
+<label for="montoITBIS">
+
+Monto sin ITBIS
+
+</label>
+
+<input
+type="number"
+id="montoITBIS"
+placeholder="Ejemplo: 1500">
+
+<div class="botones">
+
+<button onclick="ejecutarITBIS()">
+
+Calcular
+
+</button>
+
+<button onclick="limpiarITBIS()">
+
+Limpiar
+
+</button>
+
+</div>
+
+</div>
+
+<div id="resultadoITBIS" class="resultado"></div>
+
+</div>
+
+<!-- ========================= -->
+
+<div id="modulo-isr" class="modulo" style="display:none;">
+
+<h2>📈 Calculadora de ISR</h2>
+
+<p>Calcule el Impuesto Sobre la Renta.</p>
+
+<div class="formulario">
+
+<label for="salarioISR">
+
+Salario mensual
+
+</label>
+
+<input
+type="number"
+id="salarioISR"
+placeholder="Ejemplo: 50000">
+
+<div class="botones">
+
+<button onclick="calcularISR()">
+
+Calcular
+
+</button>
+
+<button onclick="limpiarISR()">
+
+Limpiar
+
+</button>
+
+</div>
+
+</div>
+
+<div id="resultadoISR" class="resultado"></div>
+
+</div>
+
+<!-- ========================= -->
+
+<div id="modulo-ahorro" class="modulo" style="display:none;">
+
+<h2>💵 Plan de Ahorro 50 / 30 / 20</h2>
+
+<p>Organice sus ingresos automáticamente.</p>
+
+<div class="formulario">
+
+<label for="ingresoAhorro">
+
+Ingreso mensual
+
+</label>
+
+<input
+type="number"
+id="ingresoAhorro"
+placeholder="Ejemplo: 60000">
+
+<div class="botones">
+
+<button onclick="calcularAhorro()">
+
+Calcular
+
+</button>
+
+<button onclick="limpiarAhorro()">
+
+Limpiar
+
+</button>
+
+</div>
+
+</div>
+
+<div id="resultadoAhorro" class="resultado"></div>
+
+</div>
+
+<!-- ========================= -->
+
+<div id="modulo-historial" class="modulo" style="display:none;">
+
+<h2>📜 Historial</h2>
+
+<p>Todas las operaciones realizadas aparecerán aquí.</p>
+
+<div class="botones">
+
+<button onclick="mostrarHistorial()">
+
+Actualizar
+
+</button>
+
+<button onclick="limpiarHistorial()">
+
+Limpiar
+
+</button>
+
+<button onclick="exportarJSON()">
+
+JSON
+
+</button>
+
+<button onclick="exportarCSV()">
+
+Excel (CSV)
+
+</button>
+
+<button onclick="exportarPDF()">
+
+PDF
+
+</button>
+
+</div>
+
+<div id="resultadoHistorial"></div>
+
+</div>
+
+<!-- ===========================
+     JAVASCRIPT DEL DASHBOARD
+=========================== -->
+
+<script>
+
+function ocultarModulos(){
+
+document.querySelectorAll(".modulo").forEach(function(modulo){
+
+modulo.style.display="none";
+
+});
+
+}
+
+function mostrarModulo(modulo){
+
+ocultarModulos();
+
+const panel=document.getElementById("contenido");
+
+panel.scrollIntoView({
+
+behavior:"smooth"
+
+});
+
+switch(modulo){
+
+case "itbis":
+
+document.getElementById("modulo-itbis").style.display="block";
+
+break;
+
+case "isr":
+
+document.getElementById("modulo-isr").style.display="block";
+
+break;
+
+case "ahorro":
+
+document.getElementById("modulo-ahorro").style.display="block";
+
+break;
+
+case "historial":
+
+document.getElementById("modulo-historial").style.display="block";
+
+mostrarHistorial();
+
+break;
+
+}
+
+}
+
+function cambiarModo(){
+
+document.body.classList.toggle("dark");
+
+localStorage.setItem(
+
+"modo",
+
+document.body.classList.contains("dark")
+
+);
+
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+
+if(localStorage.getItem("modo")=="true"){
+
+document.body.classList.add("dark");
+
+}
+
+});
+
+</script>
