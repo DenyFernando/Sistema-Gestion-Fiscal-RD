@@ -7,7 +7,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dashboard | Sistema de Gestión Fiscal RD</title>
+<title>Dashboard | Sistema de Gestión Fiscal RD v3.2</title>
+
+<meta name="description" content="Sistema de Gestión Fiscal RD">
 
 <link rel="stylesheet" href="css/dashboard.css">
 
@@ -15,37 +17,89 @@
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 </head>
 
 <body>
 
-<header>
+<header class="header">
 
-<h1>📊 Dashboard</h1>
+<div class="logo">
+
+<h1>📊 Sistema de Gestión Fiscal RD</h1>
+
+<p>Versión 3.2 Profesional</p>
+
+</div>
+
+<div class="acciones">
+
+<button onclick="cambiarModo()">
+🌙 Modo Oscuro
+</button>
 
 <button onclick="cerrarSesion()">
-
-🚪 Cerrar sesión
-
+🚪 Cerrar Sesión
 </button>
+
+</div>
 
 </header>
 
-<main>
+<main class="contenedor">
 
-<section class="cards">
+<section class="estadisticas">
+
+<div class="card">
+
+<h3>Operaciones</h3>
+
+<h2 id="totalOperaciones">0</h2>
+
+</div>
+
+<div class="card">
+
+<h3>ITBIS Calculados</h3>
+
+<h2 id="totalITBIS">0</h2>
+
+</div>
+
+<div class="card">
+
+<h3>ISR Calculados</h3>
+
+<h2 id="totalISR">0</h2>
+
+</div>
+
+<div class="card">
+
+<h3>Planes de Ahorro</h3>
+
+<h2 id="totalAhorro">0</h2>
+
+</div>
+
+</section>
+
+<section class="modulos">
 
 <div class="card">
 
 <h2>💰 ITBIS</h2>
 
-<p>Calcula el ITBIS de cualquier monto.</p>
+<p>
+
+Calcula automáticamente el ITBIS del 18%.
+
+</p>
 
 <button onclick="mostrarModulo('itbis')">
 
-Abrir
+Abrir módulo
 
 </button>
 
@@ -55,11 +109,15 @@ Abrir
 
 <h2>📈 ISR</h2>
 
-<p>Calcula el ISR mensual.</p>
+<p>
+
+Calcula el Impuesto Sobre la Renta.
+
+</p>
 
 <button onclick="mostrarModulo('isr')">
 
-Abrir
+Abrir módulo
 
 </button>
 
@@ -69,11 +127,15 @@ Abrir
 
 <h2>💵 Ahorro</h2>
 
-<p>Plan 50 / 30 / 20.</p>
+<p>
+
+Regla financiera 50 / 30 / 20.
+
+</p>
 
 <button onclick="mostrarModulo('ahorro')">
 
-Abrir
+Abrir módulo
 
 </button>
 
@@ -83,11 +145,15 @@ Abrir
 
 <h2>📜 Historial</h2>
 
-<p>Consulta operaciones.</p>
+<p>
+
+Consulta todas las operaciones realizadas.
+
+</p>
 
 <button onclick="mostrarModulo('historial')">
 
-Abrir
+Abrir módulo
 
 </button>
 
@@ -95,27 +161,44 @@ Abrir
 
 </section>
 
-<section id="contenido">
+<section id="contenido" class="panel">
 
-<h2>Bienvenido</h2>
+<h2>
+
+Bienvenido
+
+</h2>
 
 <p>
 
-Selecciona un módulo del Dashboard.
+Seleccione uno de los módulos para comenzar.
 
 </p>
 
+<div class="bienvenida">
+
+<h3>
+
+¿Qué puede hacer este sistema?
+
+</h3>
+
+<ul>
+
+<li>✅ Calcular ITBIS.</li>
+
+<li>✅ Calcular ISR.</li>
+
+<li>✅ Crear planes de ahorro.</li>
+
+<li>✅ Guardar historial.</li>
+
+<li>✅ Exportar resultados.</li>
+
+<li>✅ Modo oscuro.</li>
+
+</ul>
+
+</div>
+
 </section>
-
-</main>
-
-<script src="js/dashboard.js"></script>
-<script src="js/itbis.js"></script>
-<script src="js/isr.js"></script>
-<script src="js/ahorro.js"></script>
-<script src="js/historial.js"></script>
-<script src="js/exportar.js"></script>
-<script src="js/dashboard.js"></script>
-
-</body>
-</html>
