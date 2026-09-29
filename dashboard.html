@@ -464,3 +464,89 @@ document.body.classList.add("dark");
 });
 
 </script>
+<!-- ===========================
+     ARCHIVOS JAVASCRIPT
+=========================== -->
+
+<script src="js/script.js"></script>
+<script src="js/login.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/itbis.js"></script>
+<script src="js/isr.js"></script>
+<script src="js/ahorro.js"></script>
+<script src="js/historial.js"></script>
+<script src="js/exportar.js"></script>
+
+<script>
+
+/* ===============================
+   ACTUALIZAR ESTADÍSTICAS
+================================ */
+
+function actualizarEstadisticas(){
+
+    const historial = JSON.parse(
+        localStorage.getItem("historialFiscalRD") || "[]"
+    );
+
+    document.getElementById("totalOperaciones").textContent =
+        historial.length;
+
+    document.getElementById("totalITBIS").textContent =
+        historial.filter(item => item.tipo === "ITBIS").length;
+
+    document.getElementById("totalISR").textContent =
+        historial.filter(item => item.tipo === "ISR").length;
+
+    document.getElementById("totalAhorro").textContent =
+        historial.filter(item => item.tipo === "AHORRO").length;
+
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+
+    actualizarEstadisticas();
+
+});
+
+/* ===============================
+   RECARGAR ESTADÍSTICAS
+================================ */
+
+const guardarOriginal = window.guardarHistorial;
+
+if(typeof guardarOriginal === "function"){
+
+    window.guardarHistorial = function(datos){
+
+        guardarOriginal(datos);
+
+        actualizarEstadisticas();
+
+    };
+
+}
+
+</script>
+
+</main>
+
+<footer style="text-align:center;padding:25px;background:#0d6efd;color:#fff;margin-top:40px;">
+
+<p>
+
+© 2026 Sistema de Gestión Fiscal RD
+
+</p>
+
+<p>
+
+Versión 3.2 Profesional
+
+</p>
+
+</footer>
+
+</body>
+
+</html>
