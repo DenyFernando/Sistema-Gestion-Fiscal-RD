@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Dashboard | Sistema de Gestión Fiscal RD</title>
+    <title>Dashboard | Sistema de Gestión Fiscal RD v4.0</title>
 
     <link rel="stylesheet" href="css/dashboard.css">
 
@@ -21,13 +19,13 @@
 
     <div class="logo">
         <h1>📊 Sistema de Gestión Fiscal RD</h1>
-        <span>Versión 4.0</span>
+        <p>Versión 4.0 Profesional</p>
     </div>
 
     <div class="acciones">
 
         <button id="btnModoOscuro">
-            🌙 Modo oscuro
+            🌙 Modo Oscuro
         </button>
 
         <button id="btnCerrarSesion">
@@ -39,6 +37,8 @@
 </header>
 
 <main class="contenedor">
+
+    <!-- Estadísticas -->
 
     <section class="estadisticas">
 
@@ -58,11 +58,13 @@
         </div>
 
         <div class="card-estadistica">
-            <h3>Ahorro</h3>
+            <h3>Ahorros</h3>
             <span id="totalAhorro">0</span>
         </div>
 
     </section>
+
+    <!-- Tarjetas -->
 
     <section class="menu-modulos">
 
@@ -70,9 +72,9 @@
 
             <h2>💰 ITBIS</h2>
 
-            <p>Calculadora de ITBIS.</p>
+            <p>Calculadora del ITBIS.</p>
 
-            <button data-modulo="itbis">
+            <button onclick="mostrarModulo('itbis')">
                 Abrir módulo
             </button>
 
@@ -84,7 +86,7 @@
 
             <p>Calculadora de ISR.</p>
 
-            <button data-modulo="isr">
+            <button onclick="mostrarModulo('isr')">
                 Abrir módulo
             </button>
 
@@ -96,7 +98,7 @@
 
             <p>Regla financiera 50/30/20.</p>
 
-            <button data-modulo="ahorro">
+            <button onclick="mostrarModulo('ahorro')">
                 Abrir módulo
             </button>
 
@@ -106,9 +108,9 @@
 
             <h2>📜 Historial</h2>
 
-            <p>Consulta las operaciones realizadas.</p>
+            <p>Historial de operaciones.</p>
 
-            <button data-modulo="historial">
+            <button onclick="mostrarModulo('historial')">
                 Abrir módulo
             </button>
 
@@ -116,13 +118,9 @@
 
     </section>
 
-    <section id="contenido" class="panel">
+    <!-- Panel -->
 
-        <h2>Bienvenido</h2>
-
-        <p>
-            Selecciona un módulo para comenzar.
-        </p>
+    <section class="panel">
 
         <div id="modulo-itbis" class="modulo" hidden></div>
 
@@ -138,7 +136,7 @@
 
 <footer>
 
-    © 2026 Sistema de Gestión Fiscal RD
+    <p>© 2026 Sistema de Gestión Fiscal RD</p>
 
 </footer>
 
