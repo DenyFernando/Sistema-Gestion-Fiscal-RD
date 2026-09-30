@@ -1,119 +1,80 @@
 // ======================================
-// Sistema de Gestión Fiscal RD
-// Módulo Ahorro - Versión 3.1
+// ahorro.js
+// Sistema de Gestión Fiscal RD v4.0
 // ======================================
 
-/**
- * Formato de moneda RD$
- */
-function formatoAhorro(valor){
+// Calcular ahorro 50/30/20
+function calcularAhorro() {
 
-    return Number(valor).toLocaleString("es-DO",{
-        style:"currency",
-        currency:"DOP",
-        minimumFractionDigits:2
-    });
+    const input = document.getElementById("ingresoAhorro");
+    const resultado = document.getElementById("resultadoAhorro");
 
-}
+    const ingreso = parseFloat(input.value);
 
-/**
- * Calculadora de ahorro 50/30/20
- */
-function calcularAhorro(){
+    if (isNaN(ingreso) || ingreso <= 0) {
 
-    const ingresoInput=document.getElementById("ingresoAhorro");
-    const resultado=document.getElementById("resultadoAhorro");
-
-    if(!ingresoInput || !resultado){
-
-        alert("No se encontró el formulario de ahorro.");
-        return;
-
-    }
-
-    const ingreso=parseFloat(ingresoInput.value);
-
-    if(isNaN(ingreso) || ingreso<=0){
-
-        resultado.innerHTML=`
+        resultado.innerHTML = `
             <p style="color:red;">
                 Ingrese un monto válido.
             </p>
         `;
-
         return;
 
     }
 
-    const necesidades=ingreso*0.50;
-    const deseos=ingreso*0.30;
-    const ahorro=ingreso*0.20;
+    const necesidades = ingreso * 0.50;
+    const deseos = ingreso * 0.30;
+    const ahorro = ingreso * 0.20;
 
-    resultado.innerHTML=`
+    resultado.innerHTML = `
+        <h3>Plan de Ahorro 50/30/20</h3>
 
-        <h3>Distribución del ingreso</h3>
-
-        <p>
-            <strong>Ingreso:</strong>
-            ${formatoAhorro(ingreso)}
-        </p>
+        <p><strong>Ingreso:</strong> RD$ ${ingreso.toFixed(2)}</p>
 
         <hr>
 
-        <p>
-            🏠 <strong>50% Necesidades:</strong><br>
-            ${formatoAhorro(necesidades)}
-        </p>
+        <p>🏠 Necesidades (50%): <strong>RD$ ${necesidades.toFixed(2)}</strong></p>
 
-        <p>
-            🎉 <strong>30% Gustos:</strong><br>
-            ${formatoAhorro(deseos)}
-        </p>
+        <p>🎉 Deseos (30%): <strong>RD$ ${deseos.toFixed(2)}</strong></p>
 
-        <p>
-            💰 <strong>20% Ahorro:</strong><br>
-            ${formatoAhorro(ahorro)}
-        </p>
-
+        <p>💰 Ahorro (20%): <strong>RD$ ${ahorro.toFixed(2)}</strong></p>
     `;
 
-    // Guardar historial
-    if(typeof guardarHistorial==="function"){
-
-        guardarHistorial({
-
-            tipo:"AHORRO",
-
-            fecha:new Date().toLocaleString(),
-
-            ingreso,
-
-            necesidades,
-
-            deseos,
-
-            ahorro
-
-        });
-
-    }
+    guardarOperacionAhorro({
+        tipo: "AHORRO",
+        ingreso: ingreso,
+        necesidades: necesidades,
+        deseos: deseos,
+        ahorro: ahorro,
+        fecha: new Date().toLocaleString()
+    });
 
 }
 
-/**
- * Limpiar formulario
- */
-function limpiarAhorro(){
+// Limpiar formulario
+function limpiarAhorro() {
 
-    const ingreso=document.getElementById("ingresoAhorro");
-    const resultado=document.getElementById("resultadoAhorro");
+    document.getElementById("ingresoAhorro").value = "";
+    document.getElementById("resultadoAhorro").innerHTML = "";
 
-    if(ingreso){
-        ingreso.value="";
-    }
+}
 
-    if(resultado){
-        resultado.innerHTML="";
+// Guardar historial
+function guardarOperacionAhorro(datos) {
+
+    let historial = JSON.parse(
+        localStorage.getItem("historialFiscalRD") || "[]"
+    );
+
+    historial.push(datos);
+
+    localStorage.setItem(
+        "historialFiscalRD",
+        JSON.stringify(historial)
+    );
+
+    if (typeof actualizarEstadisticas === "function") {
+        actualizarEstadisticas();
     }
 
 }
