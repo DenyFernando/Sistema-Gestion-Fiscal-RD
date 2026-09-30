@@ -1,118 +1,129 @@
 // =======================================
 // Dashboard - Sistema de Gestión Fiscal RD
-// Versión 3.0
+// Versión 3.2 Profesional
 // =======================================
 
-// Verificar si el usuario inició sesión
-document.addEventListener("DOMContentLoaded",()=>{
+// Verificar sesión
+document.addEventListener("DOMContentLoaded", () => {
 
-    const usuario=localStorage.getItem("usuarioActivo");
+    const usuario = localStorage.getItem("usuarioActivo");
 
-    if(!usuario){
-
+    if (!usuario) {
         alert("Debe iniciar sesión.");
-
-        window.location.href="login.html";
-
+        window.location.href = "login.html";
         return;
-
     }
 
-    document.getElementById("contenido").innerHTML=`
+    // Restaurar modo oscuro
+    if (localStorage.getItem("modo") === "true") {
+        document.body.classList.add("dark");
+    }
 
-        <h2>👋 Bienvenido</h2>
-
-        <p>
-
-        Has iniciado sesión correctamente.
-
-        Selecciona uno de los módulos para comenzar.
-
-        </p>
-
-    `;
+    actualizarEstadisticas();
 
 });
 
+// ================================
 // Mostrar módulos
-function mostrarModulo(modulo){
+// ================================
 
-    const contenido=document.getElementById("contenido");
+function ocultarModulos() {
 
-    if(modulo==="itbis"){
+    document.querySelectorAll(".modulo").forEach(modulo => {
+        modulo.style.display = "none";
+    });
 
-        contenido.innerHTML=`
+}
 
-            <h2>💰 Calculadora ITBIS</h2>
+function mostrarModulo(modulo) {
 
-            <p>
+    ocultarModulos();
 
-            En la versión 3.1 aquí estará integrada la calculadora completa de ITBIS.
+    switch (modulo) {
 
-            </p>
+        case "itbis":
+            document.getElementById("modulo-itbis").style.display = "block";
+            break;
 
-        `;
+        case "isr":
+            document.getElementById("modulo-isr").style.display = "block";
+            break;
 
-    }
+        case "ahorro":
+            document.getElementById("modulo-ahorro").style.display = "block";
+            break;
 
-    else if(modulo==="isr"){
+        case "historial":
+            document.getElementById("modulo-historial").style.display = "block";
 
-        contenido.innerHTML=`
+            if (typeof mostrarHistorial === "function") {
+                mostrarHistorial();
+            }
 
-            <h2>📈 Calculadora ISR</h2>
-
-            <p>
-
-            Aquí se mostrará el cálculo del ISR utilizando las tablas correspondientes.
-
-            </p>
-
-        `;
-
-    }
-
-    else if(modulo==="ahorro"){
-
-        contenido.innerHTML=`
-
-            <h2>💵 Plan de Ahorro</h2>
-
-            <p>
-
-            Organiza tus ingresos utilizando la regla 50 / 30 / 20.
-
-            </p>
-
-        `;
-
-    }
-
-    else if(modulo==="historial"){
-
-        contenido.innerHTML=`
-
-            <h2>📜 Historial</h2>
-
-            <p>
-
-            Aquí aparecerán todas las operaciones realizadas por el usuario.
-
-            </p>
-
-        `;
+            break;
 
     }
 
 }
 
-// Cerrar sesión
-function cerrarSesion(){
+// ================================
+// Modo oscuro
+// ================================
 
-    if(confirm("¿Desea cerrar sesión?")){
+function cambiarModo() {
+
+    document.body.classList.toggle("dark");
+
+    localStorage.setItem(
+        "modo",
+        document.body.classList.contains("dark")
+    );
+
+}
+
+// ================================
+// Estadísticas
+// ================================
+
+function actualizarEstadisticas() {
+
+    const historial = JSON.parse(
+        localStorage.getItem("historialFiscalRD") || "[]"
+    );
+
+    const operaciones = document.getElementById("totalOperaciones");
+    const itbis = document.getElementById("totalITBIS");
+    const isr = document.getElementById("totalISR");
+    const ahorro = document.getElementById("totalAhorro");
+
+    if (operaciones)
+        operaciones.textContent = historial.length;
+
+    if (itbis)
+        itbis.textContent =
+            historial.filter(item => item.tipo === "ITBIS").length;
+
+    if (isr)
+        isr.textContent =
+            historial.filter(item => item.tipo === "ISR").length;
+
+    if (ahorro)
+        ahorro.textContent =
+            historial.filter(item => item.tipo === "AHORRO").length;
+
+}
+
+// ================================
+// Cerrar sesión
+// ================================
+
+function cerrarSesion() {
+
+    if (confirm("¿Desea cerrar sesión?")) {
 
         localStorage.removeItem("usuarioActivo");
 
-        window.location.href="login.html";
+        window.location.href = "login.html";
 
     }
 
