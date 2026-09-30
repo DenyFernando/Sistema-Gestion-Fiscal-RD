@@ -1,140 +1,86 @@
 // ======================================
-// Sistema de Gestión Fiscal RD
-// Módulo ITBIS - Versión 3.1
+// ITBIS.js
+// Sistema de Gestión Fiscal RD v4.0
 // ======================================
 
-const ITBIS = 0.18;
+const PORCENTAJE_ITBIS = 0.18;
 
-/**
- * Calcula el ITBIS de un monto.
- * @param {number} monto
- * @returns {object}
- */
-function calcularITBIS(monto){
+// ==============================
+// Calcular ITBIS
+// ==============================
 
-    monto = Number(monto);
+function ejecutarITBIS() {
 
-    if(isNaN(monto) || monto <= 0){
+    const input = document.getElementById("montoITBIS");
+    const resultado = document.getElementById("resultadoITBIS");
 
-        return {
-            error:true,
-            mensaje:"Ingrese un monto válido."
-        };
+    const monto = parseFloat(input.value);
 
-    }
+    if (isNaN(monto) || monto <= 0) {
 
-    const impuesto = monto * ITBIS;
-
-    const total = monto + impuesto;
-
-    return{
-
-        error:false,
-
-        monto,
-
-        impuesto,
-
-        total
-
-    };
-
-}
-
-/**
- * Formato de moneda RD$
- */
-function formatoRD(valor){
-
-    return Number(valor).toLocaleString("es-DO",{
-
-        style:"currency",
-
-        currency:"DOP",
-
-        minimumFractionDigits:2
-
-    });
-
-}
-
-/**
- * Mostrar resultado en pantalla
- */
-function ejecutarITBIS(){
-
-    const entrada = document.getElementById("montoITBIS");
-
-    const salida = document.getElementById("resultadoITBIS");
-
-    if(!entrada || !salida){
-
-        alert("No se encontró el formulario del ITBIS.");
-
-        return;
-
-    }
-
-    const resultado = calcularITBIS(entrada.value);
-
-    if(resultado.error){
-
-        salida.innerHTML = `
+        resultado.innerHTML = `
             <p style="color:red;">
-                ${resultado.mensaje}
+                Ingrese un monto válido.
             </p>
         `;
 
         return;
-
     }
 
-    salida.innerHTML = `
+    const itbis = monto * PORCENTAJE_ITBIS;
+    const total = monto + itbis;
 
+    resultado.innerHTML = `
         <h3>Resultado</h3>
 
-        <p><strong>Monto:</strong> ${formatoRD(resultado.monto)}</p>
+        <p><strong>Monto:</strong> RD$ ${monto.toFixed(2)}</p>
 
-        <p><strong>ITBIS (18%):</strong> ${formatoRD(resultado.impuesto)}</p>
+        <p><strong>ITBIS (18%):</strong> RD$ ${itbis.toFixed(2)}</p>
 
-        <p><strong>Total:</strong> ${formatoRD(resultado.total)}</p>
-
+        <p><strong>Total:</strong> RD$ ${total.toFixed(2)}</p>
     `;
 
-    // Guardar historial si existe el módulo
-    if(typeof guardarHistorial === "function"){
-
-        guardarHistorial({
-            tipo:"ITBIS",
-            fecha:new Date().toLocaleString(),
-            monto:resultado.monto,
-            impuesto:resultado.impuesto,
-            total:resultado.total
-        });
-
-    }
+    guardarOperacionITBIS({
+        tipo: "ITBIS",
+        monto: monto,
+        itbis: itbis,
+        total: total,
+        fecha: new Date().toLocaleString()
+    });
 
 }
 
-/**
- * Limpiar formulario
- */
-function limpiarITBIS(){
+// ==============================
+// Limpiar
+// ==============================
 
-    const entrada = document.getElementById("montoITBIS");
+function limpiarITBIS() {
 
-    const salida = document.getElementById("resultadoITBIS");
+    document.getElementById("montoITBIS").value = "";
 
-    if(entrada){
+    document.getElementById("resultadoITBIS").innerHTML = "";
 
-        entrada.value = "";
+}
 
-    }
+// ==============================
+// Guardar historial
+// ==============================
 
-    if(salida){
+function guardarOperacionITBIS(datos) {
 
-        salida.innerHTML = "";
+    let historial = JSON.parse(
+        localStorage.getItem("historialFiscalRD") || "[]"
+    );
 
+    historial.push(datos);
+
+    localStorage.setItem(
+        "historialFiscalRD",
+        JSON.stringify(historial)
+    );
+
+    if (typeof actualizarEstadisticas === "function") {
+        actualizarEstadisticas();
     }
 
 }
