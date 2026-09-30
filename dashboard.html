@@ -2,385 +2,146 @@
 <html lang="es">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
+    <title>Dashboard | Sistema de Gestión Fiscal RD</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/dashboard.css">
 
-<title>Dashboard | Sistema de Gestión Fiscal RD v3.2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<meta name="description" content="Sistema de Gestión Fiscal RD">
-
-<link rel="stylesheet" href="css/dashboard.css">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
 <header class="header">
 
-<div class="logo">
+    <div class="logo">
+        <h1>📊 Sistema de Gestión Fiscal RD</h1>
+        <span>Versión 4.0</span>
+    </div>
 
-<h1>📊 Sistema de Gestión Fiscal RD</h1>
+    <div class="acciones">
 
-<p>Versión 3.2 Profesional</p>
+        <button id="btnModoOscuro">
+            🌙 Modo oscuro
+        </button>
 
-</div>
+        <button id="btnCerrarSesion">
+            🚪 Cerrar sesión
+        </button>
 
-<div class="acciones">
-
-<button onclick="cambiarModo()">
-🌙 Modo Oscuro
-</button>
-
-<button onclick="cerrarSesion()">
-🚪 Cerrar Sesión
-</button>
-
-</div>
+    </div>
 
 </header>
 
 <main class="contenedor">
 
-<section class="estadisticas">
+    <section class="estadisticas">
 
-<div class="card">
+        <div class="card-estadistica">
+            <h3>Operaciones</h3>
+            <span id="totalOperaciones">0</span>
+        </div>
 
-<h3>Operaciones</h3>
+        <div class="card-estadistica">
+            <h3>ITBIS</h3>
+            <span id="totalITBIS">0</span>
+        </div>
 
-<h2 id="totalOperaciones">0</h2>
+        <div class="card-estadistica">
+            <h3>ISR</h3>
+            <span id="totalISR">0</span>
+        </div>
 
-</div>
+        <div class="card-estadistica">
+            <h3>Ahorro</h3>
+            <span id="totalAhorro">0</span>
+        </div>
 
-<div class="card">
+    </section>
 
-<h3>ITBIS Calculados</h3>
+    <section class="menu-modulos">
 
-<h2 id="totalITBIS">0</h2>
+        <div class="card-modulo">
 
-</div>
+            <h2>💰 ITBIS</h2>
 
-<div class="card">
+            <p>Calculadora de ITBIS.</p>
 
-<h3>ISR Calculados</h3>
+            <button data-modulo="itbis">
+                Abrir módulo
+            </button>
 
-<h2 id="totalISR">0</h2>
+        </div>
 
-</div>
+        <div class="card-modulo">
 
-<div class="card">
+            <h2>📈 ISR</h2>
 
-<h3>Planes de Ahorro</h3>
+            <p>Calculadora de ISR.</p>
 
-<h2 id="totalAhorro">0</h2>
+            <button data-modulo="isr">
+                Abrir módulo
+            </button>
 
-</div>
+        </div>
 
-</section>
+        <div class="card-modulo">
 
-<section class="modulos">
+            <h2>💵 Ahorro</h2>
 
-<div class="card">
+            <p>Regla financiera 50/30/20.</p>
 
-<h2>💰 ITBIS</h2>
+            <button data-modulo="ahorro">
+                Abrir módulo
+            </button>
 
-<p>
+        </div>
 
-Calcula automáticamente el ITBIS del 18%.
+        <div class="card-modulo">
 
-</p>
+            <h2>📜 Historial</h2>
 
-<button onclick="mostrarModulo('itbis')">
+            <p>Consulta las operaciones realizadas.</p>
 
-Abrir módulo
+            <button data-modulo="historial">
+                Abrir módulo
+            </button>
 
-</button>
+        </div>
 
-</div>
+    </section>
 
-<div class="card">
+    <section id="contenido" class="panel">
 
-<h2>📈 ISR</h2>
+        <h2>Bienvenido</h2>
 
-<p>
+        <p>
+            Selecciona un módulo para comenzar.
+        </p>
 
-Calcula el Impuesto Sobre la Renta.
+        <div id="modulo-itbis" class="modulo" hidden></div>
 
-</p>
+        <div id="modulo-isr" class="modulo" hidden></div>
 
-<button onclick="mostrarModulo('isr')">
+        <div id="modulo-ahorro" class="modulo" hidden></div>
 
-Abrir módulo
+        <div id="modulo-historial" class="modulo" hidden></div>
 
-</button>
+    </section>
 
-</div>
+</main>
 
-<div class="card">
+<footer>
 
-<h2>💵 Ahorro</h2>
+    © 2026 Sistema de Gestión Fiscal RD
 
-<p>
+</footer>
 
-Regla financiera 50 / 30 / 20.
-
-</p>
-
-<button onclick="mostrarModulo('ahorro')">
-
-Abrir módulo
-
-</button>
-
-</div>
-
-<div class="card">
-
-<h2>📜 Historial</h2>
-
-<p>
-
-Consulta todas las operaciones realizadas.
-
-</p>
-
-<button onclick="mostrarModulo('historial')">
-
-Abrir módulo
-
-</button>
-
-</div>
-
-</section>
-
-<section id="contenido" class="panel">
-
-<h2>
-
-Bienvenido
-
-</h2>
-
-<p>
-
-Seleccione uno de los módulos para comenzar.
-
-</p>
-
-<div class="bienvenida">
-
-<h3>
-
-¿Qué puede hacer este sistema?
-
-</h3>
-
-<ul>
-
-<li>✅ Calcular ITBIS.</li>
-
-<li>✅ Calcular ISR.</li>
-
-<li>✅ Crear planes de ahorro.</li>
-
-<li>✅ Guardar historial.</li>
-
-<li>✅ Exportar resultados.</li>
-
-<li>✅ Modo oscuro.</li>
-
-</ul>
-
-</div>
-
-</section>
-<!-- ===========================
-     MÓDULOS DEL SISTEMA
-=========================== -->
-
-<div id="modulo-itbis" class="modulo" style="display:none;">
-
-<h2>💰 Calculadora de ITBIS</h2>
-
-<p>Calcule automáticamente el ITBIS del 18%.</p>
-
-<div class="formulario">
-
-<label for="montoITBIS">
-
-Monto sin ITBIS
-
-</label>
-
-<input
-type="number"
-id="montoITBIS"
-placeholder="Ejemplo: 1500">
-
-<div class="botones">
-
-<button onclick="ejecutarITBIS()">
-
-Calcular
-
-</button>
-
-<button onclick="limpiarITBIS()">
-
-Limpiar
-
-</button>
-
-</div>
-
-</div>
-
-<div id="resultadoITBIS" class="resultado"></div>
-
-</div>
-
-<!-- ========================= -->
-
-<div id="modulo-isr" class="modulo" style="display:none;">
-
-<h2>📈 Calculadora de ISR</h2>
-
-<p>Calcule el Impuesto Sobre la Renta.</p>
-
-<div class="formulario">
-
-<label for="salarioISR">
-
-Salario mensual
-
-</label>
-
-<input
-type="number"
-id="salarioISR"
-placeholder="Ejemplo: 50000">
-
-<div class="botones">
-
-<button onclick="calcularISR()">
-
-Calcular
-
-</button>
-
-<button onclick="limpiarISR()">
-
-Limpiar
-
-</button>
-
-</div>
-
-</div>
-
-<div id="resultadoISR" class="resultado"></div>
-
-</div>
-
-<!-- ========================= -->
-
-<div id="modulo-ahorro" class="modulo" style="display:none;">
-
-<h2>💵 Plan de Ahorro 50 / 30 / 20</h2>
-
-<p>Organice sus ingresos automáticamente.</p>
-
-<div class="formulario">
-
-<label for="ingresoAhorro">
-
-Ingreso mensual
-
-</label>
-
-<input
-type="number"
-id="ingresoAhorro"
-placeholder="Ejemplo: 60000">
-
-<div class="botones">
-
-<button onclick="calcularAhorro()">
-
-Calcular
-
-</button>
-
-<button onclick="limpiarAhorro()">
-
-Limpiar
-
-</button>
-
-</div>
-
-</div>
-
-<div id="resultadoAhorro" class="resultado"></div>
-
-</div>
-
-<!-- ========================= -->
-
-<div id="modulo-historial" class="modulo" style="display:none;">
-
-<h2>📜 Historial</h2>
-
-<p>Todas las operaciones realizadas aparecerán aquí.</p>
-
-<div class="botones">
-
-<button onclick="mostrarHistorial()">
-
-Actualizar
-
-</button>
-
-<button onclick="limpiarHistorial()">
-
-Limpiar
-
-</button>
-
-<button onclick="exportarJSON()">
-
-JSON
-
-</button>
-
-<button onclick="exportarCSV()">
-
-Excel (CSV)
-
-</button>
-
-<button onclick="exportarPDF()">
-
-PDF
-
-</button>
-
-</div>
-
-<div id="resultadoHistorial"></div>
-
-</div>
-
-<script src="js/script.js"></script>
-<script src="js/login.js"></script>
 <script src="js/dashboard.js"></script>
 <script src="js/itbis.js"></script>
 <script src="js/isr.js"></script>
@@ -388,24 +149,5 @@ PDF
 <script src="js/historial.js"></script>
 <script src="js/exportar.js"></script>
 
-</main>
-
-<footer style="text-align:center;padding:25px;background:#0d6efd;color:#fff;margin-top:40px;">
-
-<p>
-
-© 2026 Sistema de Gestión Fiscal RD
-
-</p>
-
-<p>
-
-Versión 3.2 Profesional
-
-</p>
-
-</footer>
-
 </body>
-
 </html>
