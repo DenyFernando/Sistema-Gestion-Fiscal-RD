@@ -1,170 +1,83 @@
 // ======================================
-// Sistema de Gestión Fiscal RD
-// Módulo ISR - Versión 3.1
+// ISR.js
+// Sistema de Gestión Fiscal RD v4.0
 // ======================================
 
-/**
- * Formato de moneda RD$
- */
+// Calcular ISR
+function calcularISR() {
 
-function formatoMoneda(valor){
+    const input = document.getElementById("salarioISR");
+    const resultado = document.getElementById("resultadoISR");
 
-    return Number(valor).toLocaleString("es-DO",{
+    const salario = parseFloat(input.value);
 
-        style:"currency",
+    if (isNaN(salario) || salario <= 0) {
 
-        currency:"DOP",
+        resultado.innerHTML = `
+            <p style="color:red;">
+                Ingrese un salario válido.
+            </p>
+        `;
+        return;
+    }
 
-        minimumFractionDigits:2
+    let isr = 0;
 
+    // Cálculo simplificado (puedes actualizar las tablas luego)
+    if (salario <= 34685) {
+        isr = 0;
+    } else if (salario <= 52027) {
+        isr = (salario - 34685) * 0.15;
+    } else if (salario <= 72260) {
+        isr = 2601 + ((salario - 52027) * 0.20);
+    } else {
+        isr = 6647.60 + ((salario - 72260) * 0.25);
+    }
+
+    resultado.innerHTML = `
+        <h3>Resultado</h3>
+
+        <p><strong>Salario:</strong> RD$ ${salario.toFixed(2)}</p>
+
+        <p><strong>ISR:</strong> RD$ ${isr.toFixed(2)}</p>
+
+        <p><strong>Salario Neto:</strong> RD$ ${(salario - isr).toFixed(2)}</p>
+    `;
+
+    guardarOperacionISR({
+        tipo: "ISR",
+        salario: salario,
+        impuesto: isr,
+        neto: salario - isr,
+        fecha: new Date().toLocaleString()
     });
 
 }
 
-/**
- * Calculadora ISR
- */
+// Limpiar formulario
+function limpiarISR() {
 
-function calcularISR(){
-
-    const salarioInput=document.getElementById("salarioISR");
-    const resultado=document.getElementById("resultadoISR");
-
-    if(!salarioInput || !resultado){
-
-        alert("No se encontró el formulario ISR.");
-        return;
-
-    }
-
-    let salarioMensual=parseFloat(salarioInput.value);
-
-    if(isNaN(salarioMensual) || salarioMensual<=0){
-
-        resultado.innerHTML=`
-        <p style="color:red;">
-        Ingrese un salario válido.
-        </p>
-        `;
-
-        return;
-
-    }
-
-    let salarioAnual=salarioMensual*12;
-
-    let impuestoAnual=0;
-    let tramo="Exento";
-
-    // Tramos de ejemplo (puedes actualizarlos cuando cambien)
-
-    if(salarioAnual<=416220){
-
-        impuestoAnual=0;
-        tramo="Exento";
-
-    }
-
-    else if(salarioAnual<=624329){
-
-        impuestoAnual=(salarioAnual-416220)*0.15;
-        tramo="15%";
-
-    }
-
-    else if(salarioAnual<=867123){
-
-        impuestoAnual=31216+(salarioAnual-624329)*0.20;
-        tramo="20%";
-
-    }
-
-    else{
-
-        impuestoAnual=79776+(salarioAnual-867123)*0.25;
-        tramo="25%";
-
-    }
-
-    const impuestoMensual=impuestoAnual/12;
-
-    const salarioNeto=salarioMensual-impuestoMensual;
-
-    resultado.innerHTML=`
-
-    <h3>Resultado</h3>
-
-    <p><strong>Salario mensual:</strong>
-    ${formatoMoneda(salarioMensual)}
-    </p>
-
-    <p><strong>Salario anual:</strong>
-    ${formatoMoneda(salarioAnual)}
-    </p>
-
-    <p><strong>Tramo:</strong>
-    ${tramo}
-    </p>
-
-    <p><strong>ISR mensual:</strong>
-    ${formatoMoneda(impuestoMensual)}
-    </p>
-
-    <p><strong>ISR anual:</strong>
-    ${formatoMoneda(impuestoAnual)}
-    </p>
-
-    <p><strong>Salario neto:</strong>
-    ${formatoMoneda(salarioNeto)}
-    </p>
-
-    `;
-
-    // Guardar en historial si existe
-
-    if(typeof guardarHistorial==="function"){
-
-        guardarHistorial({
-
-            tipo:"ISR",
-
-            fecha:new Date().toLocaleString(),
-
-            salarioMensual,
-
-            salarioAnual,
-
-            impuestoMensual,
-
-            impuestoAnual,
-
-            salarioNeto
-
-        });
-
-    }
+    document.getElementById("salarioISR").value = "";
+    document.getElementById("resultadoISR").innerHTML = "";
 
 }
 
-/**
- * Limpiar formulario
- */
+// Guardar en historial
+function guardarOperacionISR(datos) {
 
-function limpiarISR(){
+    let historial = JSON.parse(
+        localStorage.getItem("historialFiscalRD") || "[]"
+    );
 
-    const salario=document.getElementById("salarioISR");
-    const resultado=document.getElementById("resultadoISR");
+    historial.push(datos);
 
-    if(salario){
+    localStorage.setItem(
+        "historialFiscalRD",
+        JSON.stringify(historial)
+    );
 
-        salario.value="";
-
-    }
-
-    if(resultado){
-
-        resultado.innerHTML="";
-
+    if (typeof actualizarEstadisticas === "function") {
+        actualizarEstadisticas();
     }
 
 }
