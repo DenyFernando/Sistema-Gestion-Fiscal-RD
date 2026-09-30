@@ -1,7 +1,7 @@
-// =======================================
-// Dashboard - Sistema de Gestión Fiscal RD
-// Versión 4.0
-// =======================================
+// ======================================
+// Dashboard.js
+// Sistema de Gestión Fiscal RD v4.0
+// ======================================
 
 // Verificar sesión
 document.addEventListener("DOMContentLoaded", () => {
@@ -14,22 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    iniciarDashboard();
-
-});
-
-// ================================
-// Inicializar Dashboard
-// ================================
-
-function iniciarDashboard() {
-
-    // Botón modo oscuro
+    // Eventos
     document
         .getElementById("btnModoOscuro")
         .addEventListener("click", cambiarModo);
 
-    // Botón cerrar sesión
     document
         .getElementById("btnCerrarSesion")
         .addEventListener("click", cerrarSesion);
@@ -39,24 +28,13 @@ function iniciarDashboard() {
         document.body.classList.add("dark");
     }
 
-    // Eventos de los botones de módulos
-    document.querySelectorAll("[data-modulo]").forEach(boton => {
-
-        boton.addEventListener("click", () => {
-
-            mostrarModulo(boton.dataset.modulo);
-
-        });
-
-    });
-
     actualizarEstadisticas();
 
-}
+});
 
-// ================================
+// ==============================
 // Mostrar módulos
-// ================================
+// ==============================
 
 function ocultarModulos() {
 
@@ -74,11 +52,9 @@ function mostrarModulo(nombre) {
 
     const modulo = document.getElementById("modulo-" + nombre);
 
-    if (modulo) {
+    if (!modulo) return;
 
-        modulo.hidden = false;
-
-    }
+    modulo.hidden = false;
 
     switch (nombre) {
 
@@ -188,10 +164,16 @@ function mostrarModulo(nombre) {
 
                 <div id="resultadoHistorial"></div>
 
+                <br>
+
                 <div class="botones">
 
                     <button onclick="mostrarHistorial()">
                         Actualizar
+                    </button>
+
+                    <button onclick="limpiarHistorial()">
+                        Limpiar
                     </button>
 
                     <button onclick="exportarJSON()">
@@ -219,9 +201,9 @@ function mostrarModulo(nombre) {
 
 }
 
-// ================================
+// ==============================
 // Estadísticas
-// ================================
+// ==============================
 
 function actualizarEstadisticas() {
 
@@ -243,9 +225,9 @@ function actualizarEstadisticas() {
 
 }
 
-// ================================
+// ==============================
 // Modo oscuro
-// ================================
+// ==============================
 
 function cambiarModo() {
 
@@ -258,9 +240,9 @@ function cambiarModo() {
 
 }
 
-// ================================
+// ==============================
 // Cerrar sesión
-// ================================
+// ==============================
 
 function cerrarSesion() {
 
