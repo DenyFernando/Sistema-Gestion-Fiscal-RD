@@ -1,7 +1,51 @@
 // ======================================
 // historial.js
-// Sistema de Gestión Fiscal RD v4.0
+// Sistema de Gestión Fiscal RD v4.1
 // ======================================
+
+// Obtener usuario actual
+function obtenerUsuarioActual() {
+    const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+
+    if (!usuario) {
+        return null;
+    }
+
+    return usuario.correo;
+}
+
+// Obtener la clave del historial
+function obtenerClaveHistorial() {
+    const correo = obtenerUsuarioActual();
+
+    if (!correo) {
+        return "historial_invitado";
+    }
+
+    return "historial_" + correo;
+}
+
+// Guardar operación
+function guardarHistorial(tipo, datos) {
+
+    const clave = obtenerClaveHistorial();
+
+    const historial = JSON.parse(
+        localStorage.getItem(clave) || "[]"
+    );
+
+    historial.push({
+        tipo: tipo,
+        datos: datos,
+        fecha: new Date().toLocaleString()
+    });
+
+    localStorage.setItem(
+        clave,
+        JSON.stringify(historial)
+    );
+
+}
 
 // Mostrar historial
 function mostrarHistorial() {
@@ -10,67 +54,35 @@ function mostrarHistorial() {
 
     if (!contenedor) return;
 
+    const clave = obtenerClaveHistorial();
+
     const historial = JSON.parse(
-        localStorage.getItem("historialFiscalRD") || "[]"
+        localStorage.getItem(clave) || "[]"
     );
 
     if (historial.length === 0) {
 
-        contenedor.innerHTML = `
-            <p>No hay operaciones registradas.</p>
-        `;
+        contenedor.innerHTML =
+        "<p>No hay operaciones registradas.</p>";
 
         return;
+
     }
 
-    let html = `
-        <table style="width:100%;border-collapse:collapse;">
-            <thead>
-                <tr>
-                    <th>Tipo</th>
-                    <th>Fecha</th>
-                    <th>Detalle</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
+    let html = "";
 
-    historial.forEach(item => {
-
-        let detalle = "";
-
-        switch (item.tipo) {
-
-            case "ITBIS":
-                detalle = `Monto: RD$ ${item.monto.toFixed(2)} | Total: RD$ ${item.total.toFixed(2)}`;
-                break;
-
-            case "ISR":
-                detalle = `Salario: RD$ ${item.salario.toFixed(2)} | ISR: RD$ ${item.impuesto.toFixed(2)}`;
-                break;
-
-            case "AHORRO":
-                detalle = `Ingreso: RD$ ${item.ingreso.toFixed(2)} | Ahorro: RD$ ${item.ahorro.toFixed(2)}`;
-                break;
-
-            default:
-                detalle = "Sin información";
-        }
+    historial.forEach((item, index) => {
 
         html += `
-            <tr>
-                <td>${item.tipo}</td>
-                <td>${item.fecha}</td>
-                <td>${detalle}</td>
-            </tr>
+        <div class="registro">
+            <h4>${item.tipo}</h4>
+            <p>${item.datos}</p>
+            <small>${item.fecha}</small>
+        </div>
+        <hr>
         `;
 
     });
-
-    html += `
-            </tbody>
-        </table>
-    `;
 
     contenedor.innerHTML = html;
 
@@ -79,13 +91,13 @@ function mostrarHistorial() {
 // Limpiar historial
 function limpiarHistorial() {
 
-    const confirmar = confirm(
-        "¿Desea eliminar todo el historial?"
+    if (!confirm("¿Eliminar el historial del usuario actual?")) {
+        return;
+    }
+
+    localStorage.removeItem(
+        obtenerClaveHistorial()
     );
-
-    if (!confirmar) return;
-
-    localStorage.removeItem("historialFiscalRD");
 
     mostrarHistorial();
 
