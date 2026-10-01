@@ -1,150 +1,444 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Sistema de Gestión Fiscal RD v4.0</title>
 
-    <link rel="stylesheet" href="css/dashboard.css">
+<meta charset="UTF-8">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>
+Dashboard | Sistema de Gestión Fiscal RD v4.1
+</title>
+
+<meta
+name="description"
+content="Sistema de Gestión Fiscal RD">
+
+<link
+rel="stylesheet"
+href="css/dashboard.css">
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
 </head>
 
 <body>
 
+<!-- ===================================
+HEADER
+=================================== -->
+
 <header class="header">
 
-    <div class="logo">
-        <h1>📊 Sistema de Gestión Fiscal RD</h1>
-        <p>Versión 4.0 Profesional</p>
-    </div>
+<div class="logo">
 
-    <div class="acciones">
+<h1>
+📊 Sistema de Gestión Fiscal RD
+</h1>
 
-        <button id="btnModoOscuro">
-            🌙 Modo Oscuro
-        </button>
+<p>
+Versión 4.1 Profesional
+</p>
 
-        <button id="btnCerrarSesion">
-            🚪 Cerrar sesión
-        </button>
+</div>
 
-    </div>
+<div class="acciones">
+
+<button id="btnModoOscuro">
+🌙 Modo Oscuro
+</button>
+
+<button id="btnCerrarSesion">
+🚪 Cerrar Sesión
+</button>
+
+</div>
 
 </header>
 
+<!-- ===================================
+USUARIO
+=================================== -->
+
 <section class="usuario-panel">
-    <h2 id="saludoUsuario">👋 Bienvenido</h2>
-    <p id="correoUsuario"></p>
+
+<h2 id="saludoUsuario">
+👋 Bienvenido
+</h2>
+
+<p id="correoUsuario">
+
+</p>
+
 </section>
+
+<!-- ===================================
+CONTENEDOR
+=================================== -->
 
 <main class="contenedor">
 
-    <!-- Estadísticas -->
+<!-- ===============================
+ESTADÍSTICAS
+=============================== -->
 
-    <section class="estadisticas">
+<section class="estadisticas">
 
-        <div class="card-estadistica">
-            <h3>Operaciones</h3>
-            <span id="totalOperaciones">0</span>
-        </div>
+<div class="card-estadistica">
 
-        <div class="card-estadistica">
-            <h3>ITBIS</h3>
-            <span id="totalITBIS">0</span>
-        </div>
+<h3>
+Operaciones
+</h3>
 
-        <div class="card-estadistica">
-            <h3>ISR</h3>
-            <span id="totalISR">0</span>
-        </div>
+<span id="totalOperaciones">
+0
+</span>
 
-        <div class="card-estadistica">
-            <h3>Ahorros</h3>
-            <span id="totalAhorro">0</span>
-        </div>
+</div>
 
-    </section>
+<div class="card-estadistica">
 
-    <!-- Tarjetas -->
+<h3>
+ITBIS
+</h3>
 
-    <section class="menu-modulos">
+<span id="totalITBIS">
+0
+</span>
 
-        <div class="card-modulo">
+</div>
 
-            <h2>💰 ITBIS</h2>
+<div class="card-estadistica">
 
-            <p>Calculadora del ITBIS.</p>
+<h3>
+ISR
+</h3>
 
-            <button onclick="mostrarModulo('itbis')">
-                Abrir módulo
-            </button>
+<span id="totalISR">
+0
+</span>
 
-        </div>
+</div>
 
-        <div class="card-modulo">
+<div class="card-estadistica">
 
-            <h2>📈 ISR</h2>
+<h3>
+Ahorro
+</h3>
 
-            <p>Calculadora de ISR.</p>
+<span id="totalAhorro">
+0
+</span>
 
-            <button onclick="mostrarModulo('isr')">
-                Abrir módulo
-            </button>
+</div>
 
-        </div>
+</section>
 
-        <div class="card-modulo">
+<!-- ===============================
+MENÚ DE MÓDULOS
+=============================== -->
 
-            <h2>💵 Ahorro</h2>
+<section class="menu-modulos">
 
-            <p>Regla financiera 50/30/20.</p>
+<div class="card-modulo">
 
-            <button onclick="mostrarModulo('ahorro')">
-                Abrir módulo
-            </button>
+<h2>
+💰 ITBIS
+</h2>
 
-        </div>
+<p>
+Calcular automáticamente el ITBIS.
+</p>
 
-        <div class="card-modulo">
+<button
+onclick="mostrarModulo('itbis')">
+Abrir módulo
+</button>
 
-            <h2>📜 Historial</h2>
+</div>
 
-            <p>Historial de operaciones.</p>
+<div class="card-modulo">
 
-            <button onclick="mostrarModulo('historial')">
-                Abrir módulo
-            </button>
+<h2>
+📈 ISR
+</h2>
 
-        </div>
+<p>
+Calcular el Impuesto Sobre la Renta.
+</p>
 
-    </section>
+<button
+onclick="mostrarModulo('isr')">
+Abrir módulo
+</button>
 
-    <!-- Panel -->
+</div>
 
-    <section class="panel">
+<div class="card-modulo">
 
-        <div id="modulo-itbis" class="modulo" hidden></div>
+<h2>
+💵 Ahorro
+</h2>
 
-        <div id="modulo-isr" class="modulo" hidden></div>
+<p>
+Aplicar la regla financiera 50 / 30 / 20.
+</p>
 
-        <div id="modulo-ahorro" class="modulo" hidden></div>
+<button
+onclick="mostrarModulo('ahorro')">
+Abrir módulo
+</button>
 
-        <div id="modulo-historial" class="modulo" hidden></div>
+</div>
 
-    </section>
+<div class="card-modulo">
+
+<h2>
+📜 Historial
+</h2>
+
+<p>
+Consultar todas las operaciones realizadas.
+</p>
+
+<button
+onclick="mostrarModulo('historial')">
+Abrir módulo
+</button>
+
+</div>
+
+</section>
+
+<!-- ===============================
+PANEL PRINCIPAL
+=============================== -->
+
+<section class="panel">
+
+<div class="bienvenida">
+
+<h2>
+Bienvenido al Sistema
+</h2>
+
+<p>
+
+Seleccione uno de los módulos para comenzar.
+
+</p>
+
+</div>
+<!-- ===============================
+MÓDULO ITBIS
+=============================== -->
+
+<div id="modulo-itbis" class="modulo" hidden>
+
+<h2>💰 Calculadora de ITBIS</h2>
+
+<p>
+Ingrese el monto sin ITBIS para calcular el impuesto.
+</p>
+
+<div class="formulario">
+
+<label for="montoITBIS">
+Monto sin ITBIS
+</label>
+
+<input
+type="number"
+id="montoITBIS"
+placeholder="Ejemplo: 1500">
+
+<div class="botones">
+
+<button onclick="ejecutarITBIS()">
+Calcular
+</button>
+
+<button onclick="limpiarITBIS()">
+Limpiar
+</button>
+
+</div>
+
+</div>
+
+<div
+id="resultadoITBIS"
+class="resultado">
+</div>
+
+</div>
+
+<!-- ===============================
+MÓDULO ISR
+=============================== -->
+
+<div id="modulo-isr" class="modulo" hidden>
+
+<h2>📈 Calculadora de ISR</h2>
+
+<p>
+Ingrese el salario mensual.
+</p>
+
+<div class="formulario">
+
+<label for="salarioISR">
+Salario mensual
+</label>
+
+<input
+type="number"
+id="salarioISR"
+placeholder="Ejemplo: 50000">
+
+<div class="botones">
+
+<button onclick="calcularISR()">
+Calcular
+</button>
+
+<button onclick="limpiarISR()">
+Limpiar
+</button>
+
+</div>
+
+</div>
+
+<div
+id="resultadoISR"
+class="resultado">
+</div>
+
+</div>
+
+<!-- ===============================
+MÓDULO AHORRO
+=============================== -->
+
+<div id="modulo-ahorro" class="modulo" hidden>
+
+<h2>💵 Plan de Ahorro 50 / 30 / 20</h2>
+
+<p>
+Distribuya automáticamente sus ingresos.
+</p>
+
+<div class="formulario">
+
+<label for="ingresoAhorro">
+Ingreso mensual
+</label>
+
+<input
+type="number"
+id="ingresoAhorro"
+placeholder="Ejemplo: 60000">
+
+<div class="botones">
+
+<button onclick="calcularAhorro()">
+Calcular
+</button>
+
+<button onclick="limpiarAhorro()">
+Limpiar
+</button>
+
+</div>
+
+</div>
+
+<div
+id="resultadoAhorro"
+class="resultado">
+</div>
+
+</div>
+
+<!-- ===============================
+MÓDULO HISTORIAL
+=============================== -->
+
+<div id="modulo-historial" class="modulo" hidden>
+
+<h2>📜 Historial de Operaciones</h2>
+
+<p>
+Consulte todas las operaciones realizadas.
+</p>
+
+<div class="botones">
+
+<button onclick="mostrarHistorial()">
+Actualizar
+</button>
+
+<button onclick="limpiarHistorial()">
+Limpiar
+</button>
+
+<button onclick="exportarJSON()">
+JSON
+</button>
+
+<button onclick="exportarCSV()">
+CSV
+</button>
+
+<button onclick="exportarPDF()">
+PDF
+</button>
+
+</div>
+
+<div
+id="resultadoHistorial">
+</div>
+
+</div>
+
+</section>
 
 </main>
+<!-- ===============================
+FOOTER
+=============================== -->
 
 <footer>
 
-    <p>© 2026 Sistema de Gestión Fiscal RD</p>
+<p>
+© 2026 Sistema de Gestión Fiscal RD
+</p>
+
+<p>
+Versión 4.1 Profesional
+</p>
 
 </footer>
 
+<!-- ===============================
+ARCHIVOS JAVASCRIPT
+=============================== -->
+
+<script src="js/script.js"></script>
+<script src="js/login.js"></script>
 <script src="js/dashboard.js"></script>
 <script src="js/itbis.js"></script>
 <script src="js/isr.js"></script>
@@ -153,4 +447,5 @@
 <script src="js/exportar.js"></script>
 
 </body>
+
 </html>
