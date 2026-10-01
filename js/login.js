@@ -1,81 +1,139 @@
-// =========================================
-// Sistema de Gestión Fiscal RD
-// login.js - Versión 3.0
-// =========================================
+// ======================================
+// login.js
+// Sistema de Gestión Fiscal RD v4.1
+// ======================================
 
-// Usuario de demostración
-const usuarioDemo = {
-    correo: "admin@gestionfiscalrd.com",
-    password: "123456"
-};
+// Crear usuario administrador si no existe
+if (!localStorage.getItem("usuariosFiscalRD")) {
+
+    const usuarios = [
+        {
+            nombre: "Administrador",
+            correo: "admin@gestionfiscalrd.com",
+            password: "123456"
+        }
+    ];
+
+    localStorage.setItem(
+        "usuariosFiscalRD",
+        JSON.stringify(usuarios)
+    );
+}
 
 // Esperar que cargue la página
 document.addEventListener("DOMContentLoaded", () => {
 
-    const formulario = document.getElementById("loginForm");
-
-    formulario.addEventListener("submit", iniciarSesion);
+    document
+        .getElementById("loginForm")
+        .addEventListener("submit", iniciarSesion);
 
 });
 
-// Función de inicio de sesión
-function iniciarSesion(event){
+// ================================
+// Iniciar sesión
+// ================================
 
-    event.preventDefault();
+function iniciarSesion(e) {
 
-    const correo = document.getElementById("correo").value.trim();
+    e.preventDefault();
 
-    const password = document.getElementById("password").value.trim();
+    const correo = document
+        .getElementById("correo")
+        .value
+        .trim();
+
+    const password = document
+        .getElementById("password")
+        .value
+        .trim();
 
     const mensaje = document.getElementById("mensaje");
 
-    if(correo === "" || password === ""){
+    const usuarios = JSON.parse(
+        localStorage.getItem("usuariosFiscalRD") || "[]"
+    );
 
-        mensaje.style.color = "#dc3545";
-        mensaje.textContent = "Complete todos los campos.";
+    const usuario = usuarios.find(u =>
+        u.correo === correo &&
+        u.password === password
+    );
+
+    if (!usuario) {
+
+        mensaje.style.color = "red";
+        mensaje.textContent =
+            "Correo o contraseña incorrectos.";
 
         return;
 
     }
 
-    if(
-        correo === usuarioDemo.correo &&
-        password === usuarioDemo.password
-    ){
+    localStorage.setItem(
+        "usuarioActivo",
+        JSON.stringify(usuario)
+    );
 
-        mensaje.style.color = "#198754";
-        mensaje.textContent = "Inicio de sesión correcto.";
+    mensaje.style.color = "green";
+    mensaje.textContent =
+        "Inicio de sesión correcto.";
 
-        localStorage.setItem("usuarioActivo", correo);
+    setTimeout(() => {
 
-        setTimeout(() => {
+        window.location.href = "dashboard.html";
 
-            window.location.href = "dashboard.html";
-
-        },1000);
-
-    }else{
-
-        mensaje.style.color = "#dc3545";
-        mensaje.textContent = "Correo o contraseña incorrectos.";
-
-    }
+    }, 1000);
 
 }
 
-// Crear cuenta (próximamente)
-function crearCuenta(){
+// ================================
+// Crear cuenta
+// ================================
+
+function crearCuenta() {
+
+    const nombre = prompt("Nombre completo:");
+
+    if (!nombre) return;
+
+    const correo = prompt("Correo electrónico:");
+
+    if (!correo) return;
+
+    const password = prompt("Contraseña:");
+
+    if (!password) return;
+
+    let usuarios = JSON.parse(
+        localStorage.getItem("usuariosFiscalRD") || "[]"
+    );
+
+    const existe = usuarios.find(
+        u => u.correo === correo
+    );
+
+    if (existe) {
+
+        alert("Ese correo ya está registrado.");
+
+        return;
+
+    }
+
+    usuarios.push({
+
+        nombre,
+        correo,
+        password
+
+    });
+
+    localStorage.setItem(
+        "usuariosFiscalRD",
+        JSON.stringify(usuarios)
+    );
 
     alert(
-`La creación de cuentas estará disponible en la Versión 3.1.
-
-Usuario de prueba:
-
-Correo:
-admin@gestionfiscalrd.com
-
-Contraseña:
-123456`
+        "Cuenta creada correctamente.\n\nYa puedes iniciar sesión."
     );
 
 }
