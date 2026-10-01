@@ -1,12 +1,14 @@
 // ======================================
-// Dashboard.js
-// Sistema de Gestión Fiscal RD v4.0
+// dashboard.js
+// Sistema de Gestión Fiscal RD v4.1
 // ======================================
 
-// Verificar sesión
 document.addEventListener("DOMContentLoaded", () => {
 
-    const usuario = localStorage.getItem("usuarioActivo");
+    // Verificar si hay un usuario activo
+    const usuario = JSON.parse(
+        localStorage.getItem("usuarioActivo")
+    );
 
     if (!usuario) {
         alert("Debe iniciar sesión.");
@@ -14,14 +16,31 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // Eventos
-    document
-        .getElementById("btnModoOscuro")
-        .addEventListener("click", cambiarModo);
+    // Mostrar nombre y correo del usuario
+    const saludo = document.getElementById("saludoUsuario");
+    const correo = document.getElementById("correoUsuario");
 
-    document
-        .getElementById("btnCerrarSesion")
-        .addEventListener("click", cerrarSesion);
+    if (saludo) {
+        saludo.textContent = `👋 Bienvenido, ${usuario.nombre}`;
+    }
+
+    if (correo) {
+        correo.textContent = usuario.correo;
+    }
+
+    // Botón modo oscuro
+    const btnModo = document.getElementById("btnModoOscuro");
+
+    if (btnModo) {
+        btnModo.addEventListener("click", cambiarModo);
+    }
+
+    // Botón cerrar sesión
+    const btnCerrar = document.getElementById("btnCerrarSesion");
+
+    if (btnCerrar) {
+        btnCerrar.addEventListener("click", cerrarSesion);
+    }
 
     // Restaurar modo oscuro
     if (localStorage.getItem("modoOscuro") === "true") {
@@ -32,202 +51,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// ==============================
+// =========================
 // Mostrar módulos
-// ==============================
-
-function ocultarModulos() {
-
-    document.querySelectorAll(".modulo").forEach(modulo => {
-
-        modulo.hidden = true;
-
-    });
-
-}
+// =========================
 
 function mostrarModulo(nombre) {
 
-    ocultarModulos();
+    document.querySelectorAll(".modulo").forEach(modulo => {
+        modulo.hidden = true;
+    });
 
     const modulo = document.getElementById("modulo-" + nombre);
 
-    if (!modulo) return;
-
-    modulo.hidden = false;
-
-    switch (nombre) {
-
-        case "itbis":
-
-            modulo.innerHTML = `
-                <h2>💰 Calculadora ITBIS</h2>
-
-                <div class="formulario">
-
-                    <label>Monto</label>
-
-                    <input
-                        type="number"
-                        id="montoITBIS"
-                        placeholder="Ingrese el monto">
-
-                    <div class="botones">
-
-                        <button onclick="ejecutarITBIS()">
-                            Calcular
-                        </button>
-
-                        <button onclick="limpiarITBIS()">
-                            Limpiar
-                        </button>
-
-                    </div>
-
-                    <div id="resultadoITBIS" class="resultado"></div>
-
-                </div>
-            `;
-
-            break;
-
-        case "isr":
-
-            modulo.innerHTML = `
-                <h2>📈 Calculadora ISR</h2>
-
-                <div class="formulario">
-
-                    <label>Salario mensual</label>
-
-                    <input
-                        type="number"
-                        id="salarioISR"
-                        placeholder="Ingrese el salario">
-
-                    <div class="botones">
-
-                        <button onclick="calcularISR()">
-                            Calcular
-                        </button>
-
-                        <button onclick="limpiarISR()">
-                            Limpiar
-                        </button>
-
-                    </div>
-
-                    <div id="resultadoISR" class="resultado"></div>
-
-                </div>
-            `;
-
-            break;
-
-        case "ahorro":
-
-            modulo.innerHTML = `
-                <h2>💵 Plan de Ahorro</h2>
-
-                <div class="formulario">
-
-                    <label>Ingreso mensual</label>
-
-                    <input
-                        type="number"
-                        id="ingresoAhorro"
-                        placeholder="Ingrese el ingreso">
-
-                    <div class="botones">
-
-                        <button onclick="calcularAhorro()">
-                            Calcular
-                        </button>
-
-                        <button onclick="limpiarAhorro()">
-                            Limpiar
-                        </button>
-
-                    </div>
-
-                    <div id="resultadoAhorro" class="resultado"></div>
-
-                </div>
-            `;
-
-            break;
-
-        case "historial":
-
-            modulo.innerHTML = `
-                <h2>📜 Historial</h2>
-
-                <div id="resultadoHistorial"></div>
-
-                <br>
-
-                <div class="botones">
-
-                    <button onclick="mostrarHistorial()">
-                        Actualizar
-                    </button>
-
-                    <button onclick="limpiarHistorial()">
-                        Limpiar
-                    </button>
-
-                    <button onclick="exportarJSON()">
-                        JSON
-                    </button>
-
-                    <button onclick="exportarCSV()">
-                        CSV
-                    </button>
-
-                    <button onclick="exportarPDF()">
-                        PDF
-                    </button>
-
-                </div>
-            `;
-
-            if (typeof mostrarHistorial === "function") {
-                mostrarHistorial();
-            }
-
-            break;
-
+    if (modulo) {
+        modulo.hidden = false;
     }
 
 }
 
-// ==============================
-// Estadísticas
-// ==============================
-
-function actualizarEstadisticas() {
-
-    const historial = JSON.parse(
-        localStorage.getItem("historialFiscalRD") || "[]"
-    );
-
-    document.getElementById("totalOperaciones").textContent =
-        historial.length;
-
-    document.getElementById("totalITBIS").textContent =
-        historial.filter(x => x.tipo === "ITBIS").length;
-
-    document.getElementById("totalISR").textContent =
-        historial.filter(x => x.tipo === "ISR").length;
-
-    document.getElementById("totalAhorro").textContent =
-        historial.filter(x => x.tipo === "AHORRO").length;
-
-}
-
-// ==============================
+// =========================
 // Modo oscuro
-// ==============================
+// =========================
 
 function cambiarModo() {
 
@@ -240,9 +84,9 @@ function cambiarModo() {
 
 }
 
-// ==============================
+// =========================
 // Cerrar sesión
-// ==============================
+// =========================
 
 function cerrarSesion() {
 
@@ -253,5 +97,39 @@ function cerrarSesion() {
         window.location.href = "login.html";
 
     }
+
+}
+
+// =========================
+// Estadísticas
+// =========================
+
+function actualizarEstadisticas() {
+
+    const historial = JSON.parse(
+        localStorage.getItem("historialFiscalRD") || "[]"
+    );
+
+    const totalOperaciones = document.getElementById("totalOperaciones");
+    const totalITBIS = document.getElementById("totalITBIS");
+    const totalISR = document.getElementById("totalISR");
+    const totalAhorro = document.getElementById("totalAhorro");
+
+    if (totalOperaciones) totalOperaciones.textContent = historial.length;
+
+    if (totalITBIS)
+        totalITBIS.textContent = historial.filter(
+            item => item.tipo === "ITBIS"
+        ).length;
+
+    if (totalISR)
+        totalISR.textContent = historial.filter(
+            item => item.tipo === "ISR"
+        ).length;
+
+    if (totalAhorro)
+        totalAhorro.textContent = historial.filter(
+            item => item.tipo === "AHORRO"
+        ).length;
 
 }
