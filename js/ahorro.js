@@ -1,9 +1,9 @@
 // ======================================
 // ahorro.js
-// Sistema de Gestión Fiscal RD v4.0
+// Sistema de Gestión Fiscal RD v4.1
 // ======================================
 
-// Calcular ahorro 50/30/20
+// Calcular plan de ahorro
 function calcularAhorro() {
 
     const input = document.getElementById("ingresoAhorro");
@@ -14,12 +14,12 @@ function calcularAhorro() {
     if (isNaN(ingreso) || ingreso <= 0) {
 
         resultado.innerHTML = `
-            <p style="color:red;">
-                Ingrese un monto válido.
-            </p>
+            <div class="error">
+                Ingrese un ingreso válido.
+            </div>
         `;
-        return;
 
+        return;
     }
 
     const necesidades = ingreso * 0.50;
@@ -27,27 +27,33 @@ function calcularAhorro() {
     const ahorro = ingreso * 0.20;
 
     resultado.innerHTML = `
-        <h3>Plan de Ahorro 50/30/20</h3>
+        <div class="resultado-card">
+            <h3>Plan de Ahorro 50 / 30 / 20</h3>
 
-        <p><strong>Ingreso:</strong> RD$ ${ingreso.toFixed(2)}</p>
+            <p><strong>Ingreso:</strong> RD$ ${ingreso.toFixed(2)}</p>
 
-        <hr>
+            <p><strong>50% Necesidades:</strong> RD$ ${necesidades.toFixed(2)}</p>
 
-        <p>🏠 Necesidades (50%): <strong>RD$ ${necesidades.toFixed(2)}</strong></p>
+            <p><strong>30% Deseos:</strong> RD$ ${deseos.toFixed(2)}</p>
 
-        <p>🎉 Deseos (30%): <strong>RD$ ${deseos.toFixed(2)}</strong></p>
-
-        <p>💰 Ahorro (20%): <strong>RD$ ${ahorro.toFixed(2)}</strong></p>
+            <p><strong>20% Ahorro:</strong> RD$ ${ahorro.toFixed(2)}</p>
+        </div>
     `;
 
-    guardarOperacionAhorro({
-        tipo: "AHORRO",
-        ingreso: ingreso,
-        necesidades: necesidades,
-        deseos: deseos,
-        ahorro: ahorro,
-        fecha: new Date().toLocaleString()
-    });
+    // Guardar en el historial
+    if (typeof guardarHistorial === "function") {
+
+        guardarHistorial(
+            "AHORRO",
+            `Ingreso: RD$ ${ingreso.toFixed(2)} | Necesidades: RD$ ${necesidades.toFixed(2)} | Deseos: RD$ ${deseos.toFixed(2)} | Ahorro: RD$ ${ahorro.toFixed(2)}`
+        );
+
+    }
+
+    // Actualizar estadísticas
+    if (typeof actualizarEstadisticas === "function") {
+        actualizarEstadisticas();
+    }
 
 }
 
@@ -55,26 +61,7 @@ function calcularAhorro() {
 function limpiarAhorro() {
 
     document.getElementById("ingresoAhorro").value = "";
+
     document.getElementById("resultadoAhorro").innerHTML = "";
-
-}
-
-// Guardar historial
-function guardarOperacionAhorro(datos) {
-
-    let historial = JSON.parse(
-        localStorage.getItem("historialFiscalRD") || "[]"
-    );
-
-    historial.push(datos);
-
-    localStorage.setItem(
-        "historialFiscalRD",
-        JSON.stringify(historial)
-    );
-
-    if (typeof actualizarEstadisticas === "function") {
-        actualizarEstadisticas();
-    }
 
 }
