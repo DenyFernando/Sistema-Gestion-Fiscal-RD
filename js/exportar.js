@@ -1,148 +1,152 @@
 // ======================================
 // exportar.js
-// Sistema de Gestión Fiscal RD v4.0
+// Sistema de Gestión Fiscal RD v4.1
 // ======================================
 
-// Obtener historial
-function obtenerHistorial() {
-    return JSON.parse(
-        localStorage.getItem("historialFiscalRD") || "[]"
-    );
+// Obtener historial del usuario actual
+function obtenerDatosExportar() {
+
+    if (typeof obtenerHistorial === "function") {
+        return obtenerHistorial();
+    }
+
+    return [];
+
 }
 
-// ==============================
+// ===============================
 // Exportar JSON
-// ==============================
-
+// ===============================
 function exportarJSON() {
 
-    const historial = obtenerHistorial();
+    const historial = obtenerDatosExportar();
 
     if (historial.length === 0) {
         alert("No hay datos para exportar.");
         return;
     }
 
-    const blob = new Blob(
+    const archivo = new Blob(
         [JSON.stringify(historial, null, 2)],
         { type: "application/json" }
     );
 
-    descargarArchivo(blob, "historialFiscalRD.json");
+    const enlace = document.createElement("a");
+
+    enlace.href = URL.createObjectURL(archivo);
+    enlace.download = "historial.json";
+    enlace.click();
 
 }
 
-// ==============================
+// ===============================
 // Exportar CSV
-// ==============================
-
+// ===============================
 function exportarCSV() {
 
-    const historial = obtenerHistorial();
+    const historial = obtenerDatosExportar();
 
     if (historial.length === 0) {
         alert("No hay datos para exportar.");
         return;
     }
 
-    let csv = "Tipo,Fecha,Detalle\n";
+    let csv = "Tipo,Descripción,Fecha\n";
 
     historial.forEach(item => {
 
-        let detalle = "";
-
-        switch (item.tipo) {
-
-            case "ITBIS":
-                detalle = `Monto: ${item.monto} Total: ${item.total}`;
-                break;
-
-            case "ISR":
-                detalle = `Salario: ${item.salario} ISR: ${item.impuesto}`;
-                break;
-
-            case "AHORRO":
-                detalle = `Ingreso: ${item.ingreso} Ahorro: ${item.ahorro}`;
-                break;
-
-            default:
-                detalle = "";
-        }
-
-        csv += `${item.tipo},"${item.fecha}","${detalle}"\n`;
+        csv += `"${item.tipo}","${item.descripcion}","${item.fecha}"\n`;
 
     });
 
-    const blob = new Blob(
+    const archivo = new Blob(
         [csv],
         { type: "text/csv;charset=utf-8;" }
     );
 
-    descargarArchivo(blob, "historialFiscalRD.csv");
+    const enlace = document.createElement("a");
+
+    enlace.href = URL.createObjectURL(archivo);
+    enlace.download = "historial.csv";
+    enlace.click();
 
 }
 
-// ==============================
-// Exportar PDF (temporal)
-// ==============================
-
+// ===============================
+// Exportar PDF
+// ===============================
 function exportarPDF() {
 
-    const historial = obtenerHistorial();
+    const historial = obtenerDatosExportar();
 
     if (historial.length === 0) {
         alert("No hay datos para exportar.");
         return;
     }
 
-    let contenido =
-`SISTEMA DE GESTIÓN FISCAL RD
+    const ventana = window.open("", "_blank");
 
-HISTORIAL
+    let contenido = `
+    <html>
+    <head>
+        <title>Historial Fiscal</title>
+        <style>
+            body{
+                font-family:Arial,sans-serif;
+                padding:20px;
+            }
+            h1{
+                text-align:center;
+            }
+            table{
+                width:100%;
+                border-collapse:collapse;
+            }
+            th,td{
+                border:1px solid #000;
+                padding:8px;
+                text-align:left;
+            }
+            th{
+                background:#0d6efd;
+                color:white;
+            }
+        </style>
+    </head>
+    <body>
 
-`;
+    <h1>Historial Fiscal</h1>
+
+    <table>
+
+    <tr>
+        <th>Tipo</th>
+        <th>Descripción</th>
+        <th>Fecha</th>
+    </tr>
+    `;
 
     historial.forEach(item => {
 
         contenido += `
-Tipo: ${item.tipo}
-Fecha: ${item.fecha}
-
--------------------------------------
-
-`;
+        <tr>
+            <td>${item.tipo}</td>
+            <td>${item.descripcion}</td>
+            <td>${item.fecha}</td>
+        </tr>
+        `;
 
     });
 
-    const blob = new Blob(
-        [contenido],
-        { type: "application/pdf" }
-    );
+    contenido += `
+    </table>
 
-    descargarArchivo(blob, "historialFiscalRD.pdf");
+    </body>
+    </html>
+    `;
 
-}
-
-// ==============================
-// Descargar archivo
-// ==============================
-
-function descargarArchivo(blob, nombre) {
-
-    const url = URL.createObjectURL(blob);
-
-    const enlace = document.createElement("a");
-
-    enlace.href = url;
-
-    enlace.download = nombre;
-
-    document.body.appendChild(enlace);
-
-    enlace.click();
-
-    document.body.removeChild(enlace);
-
-    URL.revokeObjectURL(url);
+    ventana.document.write(contenido);
+    ventana.document.close();
+    ventana.print();
 
 }
