@@ -3,30 +3,24 @@
 // Sistema de Gestión Fiscal RD v4.1
 // ======================================
 
-// Obtener usuario actual
+// Obtener usuario activo
 function obtenerUsuarioActual() {
-    const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-
-    if (!usuario) {
-        return null;
-    }
-
-    return usuario.correo;
+    return localStorage.getItem("usuarioActivo");
 }
 
-// Obtener la clave del historial
+// Obtener la clave del historial del usuario
 function obtenerClaveHistorial() {
-    const correo = obtenerUsuarioActual();
+    const usuario = obtenerUsuarioActual();
 
-    if (!correo) {
+    if (!usuario) {
         return "historial_invitado";
     }
 
-    return "historial_" + correo;
+    return "historial_" + usuario;
 }
 
 // Guardar operación
-function guardarHistorial(tipo, datos) {
+function guardarHistorial(tipo, descripcion) {
 
     const clave = obtenerClaveHistorial();
 
@@ -36,7 +30,7 @@ function guardarHistorial(tipo, datos) {
 
     historial.push({
         tipo: tipo,
-        datos: datos,
+        descripcion: descripcion,
         fecha: new Date().toLocaleString()
     });
 
@@ -54,19 +48,17 @@ function mostrarHistorial() {
 
     if (!contenedor) return;
 
-    const clave = obtenerClaveHistorial();
-
     const historial = JSON.parse(
-        localStorage.getItem(clave) || "[]"
+        localStorage.getItem(obtenerClaveHistorial()) || "[]"
     );
 
     if (historial.length === 0) {
 
-        contenedor.innerHTML =
-        "<p>No hay operaciones registradas.</p>";
+        contenedor.innerHTML = `
+            <p>No hay operaciones registradas.</p>
+        `;
 
         return;
-
     }
 
     let html = "";
@@ -75,11 +67,14 @@ function mostrarHistorial() {
 
         html += `
         <div class="registro">
-            <h4>${item.tipo}</h4>
-            <p>${item.datos}</p>
+            <h3>${index + 1}. ${item.tipo}</h3>
+
+            <p>${item.descripcion}</p>
+
             <small>${item.fecha}</small>
+
+            <hr>
         </div>
-        <hr>
         `;
 
     });
@@ -91,7 +86,7 @@ function mostrarHistorial() {
 // Limpiar historial
 function limpiarHistorial() {
 
-    if (!confirm("¿Eliminar el historial del usuario actual?")) {
+    if (!confirm("¿Desea eliminar todo el historial?")) {
         return;
     }
 
@@ -104,5 +99,14 @@ function limpiarHistorial() {
     if (typeof actualizarEstadisticas === "function") {
         actualizarEstadisticas();
     }
+
+}
+
+// Obtener historial (para exportaciones)
+function obtenerHistorial() {
+
+    return JSON.parse(
+        localStorage.getItem(obtenerClaveHistorial()) || "[]"
+    );
 
 }
