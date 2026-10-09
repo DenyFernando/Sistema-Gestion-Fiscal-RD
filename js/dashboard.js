@@ -1,43 +1,24 @@
 // ======================================
 // dashboard.js
-// Sistema de Gestión Fiscal RD v4.1
+// Sistema de Gestión Fiscal RD v4.2
 // ======================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // Verificar si hay un usuario activo
-    const usuario = JSON.parse(
-        localStorage.getItem("usuarioActivo")
-    );
+    verificarSesion();
 
-    if (!usuario) {
-        alert("Debe iniciar sesión.");
-        window.location.href = "login.html";
-        return;
-    }
+    mostrarDatosUsuario();
 
-    // Mostrar nombre y correo del usuario
-    const saludo = document.getElementById("saludoUsuario");
-    const correo = document.getElementById("correoUsuario");
-
-    if (saludo) {
-        saludo.textContent = `👋 Bienvenido, ${usuario.nombre}`;
-    }
-
-    if (correo) {
-        correo.textContent = usuario.correo;
-    }
+    actualizarEstadisticas();
 
     // Botón modo oscuro
     const btnModo = document.getElementById("btnModoOscuro");
-
     if (btnModo) {
         btnModo.addEventListener("click", cambiarModo);
     }
 
     // Botón cerrar sesión
     const btnCerrar = document.getElementById("btnCerrarSesion");
-
     if (btnCerrar) {
         btnCerrar.addEventListener("click", cerrarSesion);
     }
@@ -47,14 +28,60 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.add("dark");
     }
 
-    actualizarEstadisticas();
-
 });
 
-// =========================
-// Mostrar módulos
-// =========================
+// ==============================
+// Verificar sesión
+// ==============================
+function verificarSesion() {
 
+    const correo = localStorage.getItem("usuarioActivo");
+
+    if (!correo) {
+
+        alert("Debe iniciar sesión.");
+
+        window.location.href = "login.html";
+
+    }
+
+}
+
+// ==============================
+// Mostrar usuario conectado
+// ==============================
+function mostrarDatosUsuario() {
+
+    const correoActivo = localStorage.getItem("usuarioActivo");
+
+    if (!correoActivo) return;
+
+    const usuarios = JSON.parse(
+        localStorage.getItem("usuariosFiscalRD") || "[]"
+    );
+
+    const usuario = usuarios.find(
+        u => u.correo === correoActivo
+    );
+
+    if (!usuario) return;
+
+    const nombre = document.getElementById("nombreUsuario");
+    const correo = document.getElementById("correoUsuario");
+
+    if (nombre) {
+        nombre.textContent = usuario.nombre;
+    }
+
+    if (correo) {
+        correo.textContent = usuario.correo;
+    }
+
+}
+
+// ==============================
+// Mostrar módulos
+// ==============================
 function mostrarModulo(nombre) {
 
     document.querySelectorAll(".modulo").forEach(modulo => {
@@ -69,10 +96,9 @@ function mostrarModulo(nombre) {
 
 }
 
-// =========================
+// ==============================
 // Modo oscuro
-// =========================
-
+// ==============================
 function cambiarModo() {
 
     document.body.classList.toggle("dark");
@@ -84,52 +110,37 @@ function cambiarModo() {
 
 }
 
-// =========================
+// ==============================
 // Cerrar sesión
-// =========================
-
+// ==============================
 function cerrarSesion() {
 
-    if (confirm("¿Desea cerrar sesión?")) {
+    if (!confirm("¿Desea cerrar sesión?")) return;
 
-        localStorage.removeItem("usuarioActivo");
+    localStorage.removeItem("usuarioActivo");
 
-        window.location.href = "login.html";
-
-    }
+    window.location.href = "login.html";
 
 }
 
-// =========================
+// ==============================
 // Estadísticas
-// =========================
-
+// ==============================
 function actualizarEstadisticas() {
 
-    const historial = JSON.parse(
-        localStorage.getItem("historialFiscalRD") || "[]"
-    );
+    if (typeof obtenerHistorial !== "function") return;
 
-    const totalOperaciones = document.getElementById("totalOperaciones");
-    const totalITBIS = document.getElementById("totalITBIS");
-    const totalISR = document.getElementById("totalISR");
-    const totalAhorro = document.getElementById("totalAhorro");
+    const historial = obtenerHistorial();
 
-    if (totalOperaciones) totalOperaciones.textContent = historial.length;
+    document.getElementById("totalOperaciones").textContent = historial.length;
 
-    if (totalITBIS)
-        totalITBIS.textContent = historial.filter(
-            item => item.tipo === "ITBIS"
-        ).length;
+    document.getElementById("totalITBIS").textContent =
+        historial.filter(item => item.tipo === "ITBIS").length;
 
-    if (totalISR)
-        totalISR.textContent = historial.filter(
-            item => item.tipo === "ISR"
-        ).length;
+    document.getElementById("totalISR").textContent =
+        historial.filter(item => item.tipo === "ISR").length;
 
-    if (totalAhorro)
-        totalAhorro.textContent = historial.filter(
-            item => item.tipo === "AHORRO"
-        ).length;
+    document.getElementById("totalAhorro").textContent =
+        historial.filter(item => item.tipo === "AHORRO").length;
 
 }
